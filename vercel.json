@@ -1,0 +1,11 @@
+{
+  "version": 2,
+  "framework": "nextjs",
+  "cleanUrls": true,
+  "regions": ["bom1"],
+  "env": {
+    "BYTEZ_API_KEY": "7072abf256b0a63fbcce934c79a8e1d4"
+  },
+  "buildCommand": "npm run build",
+  "outputDirectory": ".next"
+}

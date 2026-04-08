@@ -1,0 +1,36 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+:root {
+  --bg-cream: #F8F9F5;
+  --sage-primary: #2A7E74;
+  --saffron-primary: #E1B35B;
+  --authority: #1A1D1E;
+}
+
+body {
+  background-color: var(--bg-cream);
+  color: var(--authority);
+  font-feature-settings: 'ss01', 'ss02', 'cv01', 'cv02';
+  -webkit-font-smoothing: antialiased;
+}
+
+@layer components {
+  .glass-card {
+    @apply bg-white/40 backdrop-blur-md border border-white/20 rounded-antigravity shadow-sm;
+  }
+  
+  .btn-sage {
+    @apply bg-sage text-cream px-6 py-3 rounded-antigravity font-semibold transition-all hover:bg-sage-dark active:scale-95 shadow-md shadow-sage/20;
+  }
+  
+  .btn-saffron {
+    @apply bg-saffron text-authority px-6 py-3 rounded-antigravity font-semibold transition-all hover:bg-saffron-dark active:scale-95 shadow-md shadow-saffron/20;
+  }
+}
+
+.prana-arc-pulse {
+  background: conic-gradient(from 180deg at 50% 50%, var(--sage-primary) 0deg, var(--saffron-primary) 360deg);
+  mask: radial-gradient(circle, transparent 40%, black 41%);
+}

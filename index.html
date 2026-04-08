@@ -1,0 +1,696 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <meta name="description" content="Prana Health Intelligence — Your sovereign AI-powered Health Operating System. Clinical-grade guidance, privacy-first, built for Bharat and the world." />
+  <meta name="keywords" content="health AI, digital health, symptom analysis, health OS, Prana, open source health AI, India health app" />
+  <meta property="og:title" content="Prana Health Intelligence — Your Health OS" />
+  <meta property="og:description" content="24/7 clinical-grade health guidance powered by sovereign open source AI. Protect your family with Prana." />
+  <meta property="og:type" content="website" />
+  <title>Prana Health Intelligence — Your Sovereign Health OS</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+  <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700;800;900&family=Inter:wght@300;400;500;600&family=Noto+Sans+Devanagari:wght@300;400;500;600;700;800;900&display=swap" rel="stylesheet" />
+  <link rel="stylesheet" href="style.css" />
+</head>
+<body>
+
+  <!-- NAV -->
+  <nav class="navbar" id="navbar">
+    <div class="nav-container">
+      <a href="#" class="nav-logo" id="nav-logo-link">
+        <div class="logo-mark">
+          <svg width="36" height="36" viewBox="0 0 36 36" fill="none">
+            <circle cx="18" cy="18" r="17" stroke="url(#logoGrad)" stroke-width="2"/>
+            <path d="M10 18 Q14 8 18 18 Q22 28 26 18" stroke="url(#logoGrad)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+            <circle cx="18" cy="18" r="3" fill="url(#logoGrad)"/>
+            <defs>
+              <linearGradient id="logoGrad" x1="0" y1="0" x2="36" y2="36">
+                <stop offset="0%" stop-color="#00E5CC"/>
+                <stop offset="100%" stop-color="#6C63FF"/>
+              </linearGradient>
+            </defs>
+          </svg>
+        </div>
+        <span class="logo-text">Prana<span class="logo-accent">Health</span></span>
+      </a>
+      <ul class="nav-links" id="nav-links">
+        <li><a href="#modules" data-en="Intelligence" data-hi="बुद्धिमत्ता">Intelligence</a></li>
+        <li><a href="#pricing" data-en="Pricing" data-hi="मूल्य निर्धारण">Pricing</a></li>
+        <li><a href="#safety" data-en="Safety" data-hi="सुरक्षा">Safety</a></li>
+        <li><a href="#waitlist" class="nav-cta" data-en="Join Waitlist" data-hi="प्रतीक्षा सूची">Join Waitlist</a></li>
+        <li class="lang-toggle-wrap">
+          <button class="lang-toggle" id="lang-toggle">
+            <span class="active">EN</span>
+            <span class="divider">|</span>
+            <span>HI</span>
+          </button>
+        </li>
+      </ul>
+      <button class="nav-hamburger" id="nav-hamburger" aria-label="Open menu">
+        <span></span><span></span><span></span>
+      </button>
+    </div>
+  </nav>
+
+  <!-- HERO -->
+  <section class="hero" id="hero">
+    <div class="hero-bg">
+      <div class="orb orb-1"></div>
+      <div class="orb orb-2"></div>
+      <div class="orb orb-3"></div>
+      <canvas id="particleCanvas"></canvas>
+    </div>
+    <div class="hero-body">
+      <div class="hero-badge" data-en="Sovereign Intelligence · India-First · Global Standards" data-hi="स्वतंत्र बुद्धिमत्ता · भारत-प्रथम · वैश्विक मानक">
+        Sovereign Intelligence · India-First · Global Standards
+      </div>
+      <h1 class="hero-title">
+        <span data-en="Your Health, Deciphered." data-hi="आपका स्वास्थ्य, हमारी समझ।">Your Health, Deciphered.</span><br/>
+        <span class="gradient-text" data-en="Your Vitality, Restored." data-hi="आपकी प्राण-शक्ति, हमारा संकल्प।">Your Vitality, Restored.</span>
+      </h1>
+      <p class="hero-subtitle" data-en="The world’s first Privacy-First Health OS. Built in India for the world." data-hi="दुनिया का पहला प्राइवेसी-केंद्रित हेल्थ ओएस। भारत में निर्मित, विश्व के लिए समर्पित।">
+        The world’s first Privacy-First Health OS. Built in India for the world.
+      </p>
+      <div class="hero-actions">
+        <a href="#waitlist" class="btn-primary" id="hero-cta-primary">
+          <span data-en="Initialize My Life-Map" data-hi="अपनी प्राण लाइफ-मैप शुरू करें">Initialize My Life-Map</span>
+          <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#modules" class="btn-ghost" data-en="See How It Works" data-hi="यह कैसे काम करता है">See How It Works</a>
+      </div>
+      <div class="hero-stats">
+        <div class="stat-card">
+          <span class="stat-num">3</span>
+          <span class="stat-label" data-en="AI Modules" data-hi="एआई मॉड्यूल">AI Modules</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-num">₹0</span>
+          <span class="stat-label" data-en="Always Free Tier" data-hi="हमेशा मुफ्त स्तर">Always Free Tier</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-num">100%</span>
+          <span class="stat-label" data-en="Data Sovereign" data-hi="डेटा संप्रभुता">Data Sovereign</span>
+        </div>
+        <div class="stat-divider"></div>
+        <div class="stat-card">
+          <span class="stat-num">24/7</span>
+          <span class="stat-label" data-en="Clinical Guidance" data-hi="नैदानिक मार्गदर्शन">Clinical Guidance</span>
+        </div>
+      </div>
+    </div>
+    <div class="hero-visual">
+      <div class="phone-mockup">
+        <div class="phone-frame">
+          <div class="phone-screen">
+            <div class="pulse-overlay" id="vision-pulse">
+              <div class="pulse-arc"></div>
+              <div class="pulse-text">Reading Biomarkers...<br/><span>Mapping your Vitality</span></div>
+            </div>
+            <div class="app-header">
+              <div class="app-avatar">P</div>
+              <div class="app-greeting">
+                <span class="app-hello">Good Morning, Arjun</span>
+                <span class="app-status">All vitals nominal ✓</span>
+              </div>
+              <div class="app-shield">🛡️</div>
+            </div>
+            <div class="vitals-row">
+              <div class="vital-chip vital-green">❤️ 72 bpm</div>
+              <div class="vital-chip vital-blue">🩸 Normal</div>
+            </div>
+            <div class="ai-bubble">
+              <div class="ai-icon">
+                <svg width="16" height="16" viewBox="0 0 24 24" fill="none"><circle cx="12" cy="12" r="10" stroke="#00E5CC" stroke-width="2"/><path d="M8 12h8M12 8v8" stroke="#00E5CC" stroke-width="2" stroke-linecap="round"/></svg>
+              </div>
+              <div class="ai-text">Your B12 has been declining. I recommend a dietary adjustment and a re-test in 30 days.</div>
+            </div>
+            <div class="modules-row">
+              <div class="module-chip" id="chip-consult">
+                <span>🫁</span>
+                <span>Consult</span>
+              </div>
+              <div class="module-chip active" id="chip-records">
+                <span>📋</span>
+                <span>Records</span>
+              </div>
+              <div class="module-chip" id="chip-scan">
+                <span>🔍</span>
+                <span>Scan</span>
+              </div>
+            </div>
+            <div class="lifemap-card">
+              <div class="lifemap-title">Life-Map™ — Last 6 Months</div>
+              <div class="lifemap-chart">
+                <svg width="100%" height="60" viewBox="0 0 220 60" preserveAspectRatio="none">
+                  <defs>
+                    <linearGradient id="chartLine" x1="0" y1="0" x2="220" y2="0">
+                      <stop offset="0%" stop-color="#6C63FF"/>
+                      <stop offset="100%" stop-color="#00E5CC"/>
+                    </linearGradient>
+                    <linearGradient id="chartFill" x1="0" y1="0" x2="0" y2="1">
+                      <stop offset="0%" stop-color="#00E5CC" stop-opacity="0.3"/>
+                      <stop offset="100%" stop-color="#00E5CC" stop-opacity="0"/>
+                    </linearGradient>
+                  </defs>
+                  <path d="M0 45 Q30 40 55 35 Q80 28 100 30 Q130 32 155 20 Q180 10 220 15" fill="none" stroke="url(#chartLine)" stroke-width="2.5" stroke-linecap="round"/>
+                  <path d="M0 45 Q30 40 55 35 Q80 28 100 30 Q130 32 155 20 Q180 10 220 15 L220 60 L0 60 Z" fill="url(#chartFill)"/>
+                </svg>
+              </div>
+              <div class="lifemap-labels">
+                <span>Oct</span><span>Nov</span><span>Dec</span><span>Jan</span><span>Feb</span><span>Mar</span>
+              </div>
+            </div>
+            <div class="safety-scan">
+              <div class="scan-label">Guardian Scan</div>
+              <div class="scan-result">
+                <span class="scan-dot green"></span>
+                <span>Maggi Masala — SAFE for you</span>
+              </div>
+              <div class="scan-result">
+                <span class="scan-dot yellow"></span>
+                <span>Paracetamol 500mg — Moderate caution</span>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="phone-glow"></div>
+      </div>
+    </div>
+    <div class="hero-scroll-hint">
+      <div class="scroll-line"></div>
+      <span>Scroll to explore</span>
+    </div>
+  </section>
+
+  <!-- PROBLEM SECTION -->
+  <section class="problem-section" id="problem">
+    <div class="container">
+      <div class="section-badge">The Problem We Solve</div>
+      <h2 class="section-title">You Have More Data Than Ever.<br/><span class="gradient-text">Zero Clarity.</span></h2>
+      <div class="problem-grid">
+        <div class="problem-card" id="prob-1">
+          <div class="prob-icon">📊</div>
+          <h3>Data Fatigue</h3>
+          <p>Wearables, lab reports, prescriptions — mountains of data with no single system to make sense of it all.</p>
+        </div>
+        <div class="problem-card highlighted" id="prob-2">
+          <div class="prob-icon">⏳</div>
+          <h3>Doctor Scarcity</h3>
+          <p>India's patient-to-doctor ratio forces millions into symptom anxiety and long queues for basic health answers.</p>
+          <div class="prob-stat">1 doctor per 834 patients in India</div>
+        </div>
+        <div class="problem-card" id="prob-3">
+          <div class="prob-icon">🔓</div>
+          <h3>Privacy Breach</h3>
+          <p>Big Tech AI models harvest your most sensitive health data. Your body's information is sold as product.</p>
+        </div>
+        <div class="problem-card" id="prob-4">
+          <div class="prob-icon">💊</div>
+          <h3>Silent Contraindications</h3>
+          <p>Millions unknowingly consume products that conflict with their conditions or current medications.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TRI-INTELLIGENCE MODULES -->
+  <section class="modules-section" id="modules">
+    <div class="container">
+      <div class="section-badge" data-en="The Tri-Intelligence System" data-hi="त्रि-बुद्धिमत्ता प्रणाली">The Tri-Intelligence System</div>
+      <h2 class="section-title">
+        <span data-en="Three AIs. One" data-hi="तीन एआई। एक">Three AIs. One</span><br/>
+        <span class="gradient-text" data-en="Health OS." data-hi="हेल्थ ओएस।">Health OS.</span>
+      </h2>
+      <p class="section-sub">Every module is powered by sovereign open-source LLMs via Bytez API — your data never trains Big Tech models.</p>
+
+      <div class="modules-grid">
+        <!-- Module 1 -->
+        <div class="module-card" id="module-consult">
+          <div class="module-number">01</div>
+          <div class="module-icon-wrap teal">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 4C9.37 4 4 9.37 4 16s5.37 12 12 12 12-5.37 12-12S22.63 4 16 4z" stroke="#00E5CC" stroke-width="2"/>
+              <path d="M10 16h12M16 10v12" stroke="#00E5CC" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="module-tag">Llama 3.1 8B</div>
+          <h3 class="module-name" data-en="4-Pillar Recovery System" data-hi="4-स्तंभ स्वास्थ्य सुधार प्रणाली">4-Pillar Recovery System</h3>
+          <p class="module-desc" data-en="Clinical-grade symptom analysis providing immediate supportive care across four metabolic pillars." data-hi="नैदानिक-स्तर का लक्षण विश्लेषण जो चार चयापचय स्तंभों में तत्काल सहायक देखभाल प्रदान करता है।">Clinical-grade symptom analysis providing immediate supportive care across four metabolic pillars.</p>
+          <div class="module-pillars">
+            <div class="pillar" data-en="🏥 Clinical" data-hi="🏥 नैदानिक">🏥 Clinical</div>
+            <div class="pillar" data-en="💊 Medical" data-hi="💊 औषधीय">💊 Medical</div>
+            <div class="pillar" data-en="🥗 Diet" data-hi="🥗 आहार">🥗 Diet</div>
+            <div class="pillar" data-en="🧘 Prana" data-hi="🧘 प्राण">🧘 Prana</div>
+          </div>
+          <div class="module-footer">
+            <span class="module-cost">₹0.10–₹0.50 / consult</span>
+            <span class="module-badge">Consult</span>
+          </div>
+        </div>
+
+        <!-- Module 2 -->
+        <div class="module-card featured" id="module-records">
+          <div class="module-number">02</div>
+          <div class="featured-badge">Most Powerful</div>
+          <div class="module-icon-wrap purple">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <rect x="6" y="4" width="20" height="24" rx="3" stroke="#6C63FF" stroke-width="2"/>
+              <path d="M11 11h10M11 16h10M11 21h6" stroke="#6C63FF" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="module-tag">Llama 3.2 11B Vision</div>
+          <h3 class="module-name" data-en="The Living Life-Map" data-hi="सजीव लाइफ-मैप: रिपोर्ट का सरल सार">The Living Life-Map</h3>
+          <p class="module-desc" data-en="Upload any lab report. Prana translates medical jargon into a visual vitality timeline tracking your biomarkers." data-hi="किसी भी लैब रिपोर्ट को अपलोड करें। प्राण चिकित्सा शब्दावली को आपकी जीवन-शक्ति को ट्रैक करने वाली दृश्य समयरेखा में बदल देता है।">Upload any lab report. Prana translates medical jargon into a visual vitality timeline tracking your biomarkers.</p>
+          <div class="lifemap-preview">
+            <div class="biomarker-row">
+              <span class="bm-name">HbA1c</span>
+              <div class="bm-bar"><div class="bm-fill" style="width:65%; background: linear-gradient(90deg,#6C63FF,#00E5CC)"></div></div>
+              <span class="bm-val good">5.4%</span>
+            </div>
+            <div class="biomarker-row">
+              <span class="bm-name">Vitamin D</span>
+              <div class="bm-bar"><div class="bm-fill" style="width:40%; background: linear-gradient(90deg,#FF6B6B,#FFB800)"></div></div>
+              <span class="bm-val warn">24 ng/mL</span>
+            </div>
+            <div class="biomarker-row">
+              <span class="bm-name">Cholesterol</span>
+              <div class="bm-bar"><div class="bm-fill" style="width:78%; background: linear-gradient(90deg,#6C63FF,#00E5CC)"></div></div>
+              <span class="bm-val good">178</span>
+            </div>
+          </div>
+          <div class="module-footer">
+            <span class="module-cost">₹0.80–₹1.50 / scan</span>
+            <span class="module-badge purple">Records</span>
+          </div>
+        </div>
+
+        <!-- Module 3 -->
+        <div class="module-card" id="module-guardian">
+          <div class="module-number">03</div>
+          <div class="module-icon-wrap gold">
+            <svg width="32" height="32" viewBox="0 0 32 32" fill="none">
+              <path d="M16 3L5 8v9c0 6.2 4.7 12 11 13 6.3-1 11-6.8 11-13V8L16 3z" stroke="#FFB800" stroke-width="2"/>
+              <circle cx="16" cy="18" r="4" stroke="#FFB800" stroke-width="2"/>
+              <path d="M16 14v-4" stroke="#FFB800" stroke-width="2" stroke-linecap="round"/>
+            </svg>
+          </div>
+          <div class="module-tag">Llama 3.2 11B Vision</div>
+          <h3 class="module-name" data-en="Your Personal Guardian" data-hi="आपका निजी स्वास्थ्य रक्षक">Your Personal Guardian</h3>
+          <p class="module-desc" data-en="Real-time scanning of food and medication. Instantly detect toxins and check contraindications against your profile." data-hi="भोजन और दवाओं की रीयल-टाइम स्कैनिंग। तुरंत विषाक्त पदार्थों का पता लगाएं और अपनी प्रोफ़ाइल के अनुसार विपरीत संकेतों की जांच करें।">Real-time scanning of food and medication. Instantly detect toxins and check contraindications against your profile.</p>
+          <div class="scan-demo">
+            <div class="scan-item safe" id="scan-safe">
+              <span class="traffic-dot green">🟢</span>
+              <div>
+                <div class="scan-name">Oats Granola Bar</div>
+                <div class="scan-reason">Safe — No conflicts with your profile</div>
+              </div>
+            </div>
+            <div class="scan-item caution" id="scan-caution">
+              <span class="traffic-dot yellow">🟡</span>
+              <div>
+                <div class="scan-name">Ibuprofen 400mg</div>
+                <div class="scan-reason">Caution — Monitor with hypertension history</div>
+              </div>
+            </div>
+            <div class="scan-item danger" id="scan-danger">
+              <span class="traffic-dot red">🔴</span>
+              <div>
+                <div class="scan-name">High-Sodium Namkeen</div>
+                <div class="scan-reason">Avoid — Conflicts with kidney profile</div>
+              </div>
+            </div>
+          </div>
+          <div class="module-footer">
+            <span class="module-cost">Free — Always</span>
+            <span class="module-badge gold">Guardian</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- PRICING -->
+  <section class="pricing-section" id="pricing">
+    <div class="container">
+      <div class="section-badge" data-en="Bharat-First Pricing" data-hi="भारत-प्रथम मूल्य निर्धारण">Bharat-First Pricing</div>
+      <h2 class="section-title">
+        <span data-en="Sachet Pricing Meets" data-hi="सैशे मूल्य निर्धारण और">Sachet Pricing Meets</span><br/>
+        <span class="gradient-text" data-en="Global Excellence" data-hi="वैश्विक उत्कृष्टता">Global Excellence</span>
+      </h2>
+      <p class="section-sub">Named after India's ₹1 sachet revolution — world-class health intelligence at life-changing price points.</p>
+
+      <div class="pricing-grid">
+        <div class="price-card" id="price-free">
+          <div class="price-header">
+            <div class="price-name">Prana Basic</div>
+            <div class="price-amount">₹0<span>/forever</span></div>
+            <div class="price-tag">Always Free</div>
+          </div>
+          <ul class="price-features">
+            <li>✓ Unlimited Product Scan (Guardian)</li>
+            <li>✓ 5 Symptom Consults / month</li>
+            <li>✓ Basic Life-Map view</li>
+            <li>✓ Emergency Routing</li>
+            <li class="disabled">✗ Report Interpreter</li>
+            <li class="disabled">✗ Full Life-Map™</li>
+          </ul>
+          <a href="#waitlist" class="price-btn ghost" id="price-free-btn">Start Free</a>
+        </div>
+
+        <div class="price-card" id="price-sachet">
+          <div class="price-header">
+            <div class="price-name">One-Shot</div>
+            <div class="price-amount">₹49<span>–₹99</span></div>
+            <div class="price-tag sachet">The Sachet Hook</div>
+          </div>
+          <ul class="price-features">
+            <li>✓ Single Report Interpretation</li>
+            <li>✓ Full 4-Pillar Recovery Plan</li>
+            <li>✓ Biomarker deep-dive</li>
+            <li>✓ One-time Life-Map entry</li>
+            <li class="disabled">✗ Continuous monitoring</li>
+            <li class="disabled">✗ Family protection</li>
+          </ul>
+          <a href="#waitlist" class="price-btn ghost" id="price-sachet-btn">Pay Per Report</a>
+        </div>
+
+        <div class="price-card" id="price-individual">
+          <div class="price-header">
+            <div class="price-name" data-en="Prana Individual" data-hi="प्राण व्यक्तिगत">Prana Individual</div>
+            <div class="price-amount">₹299<span data-en="/mo" data-hi="/माह">/mo</span></div>
+            <div class="price-tag" data-en="Clinical-grade care" data-hi="व्यक्तिगत विशेषज्ञ सलाह">Clinical-grade care</div>
+          </div>
+          <ul class="price-features">
+            <li data-en="✓ Unlimited Consults" data-hi="✓ असीमित परामर्श">✓ Unlimited Consults</li>
+            <li data-en="✓ Unlimited Report Scans" data-hi="✓ असीमित रिपोर्ट स्कैन">✓ Unlimited Report Scans</li>
+            <li data-en="✓ Full Life-Map™ access" data-hi="✓ पूर्ण लाइफ-मैप™ एक्सेस">✓ Full Life-Map™ access</li>
+            <li data-en="✓ Red Shield Safety" data-hi="✓ रेड शील्ड सुरक्षा">✓ Red Shield Safety</li>
+          </ul>
+          <a href="#waitlist" class="price-btn ghost" data-en="Get Started" data-hi="शुरू करें">Get Started</a>
+        </div>
+
+        <div class="price-card hero-price" id="price-family">
+          <div class="popular-badge" data-en="The Shield" data-hi="सुरक्षा कवच">The Shield</div>
+          <div class="price-header">
+            <div class="price-name" data-en="Prana Family" data-hi="प्राण परिवार">Prana Family</div>
+            <div class="price-amount">₹499<span data-en="/mo" data-hi="/माह">/mo</span></div>
+            <div class="price-tag" data-en="Protect 4 lives" data-hi="4 सदस्यों की सुरक्षा">Protect 4 lives</div>
+          </div>
+          <ul class="price-features">
+            <li data-en="✓ 4 Individual Profiles" data-hi="✓ 4 व्यक्तिगत प्रोफाइल">✓ 4 Individual Profiles</li>
+            <li data-en="✓ Family Health Dashboard" data-hi="✓ परिवार स्वास्थ्य डैशबोर्ड">✓ Family Health Dashboard</li>
+            <li data-en="✓ ₹125 / person value" data-hi="✓ ₹125 / व्यक्ति का मूल्य">✓ ₹125 / person value</li>
+            <li data-en="✓ Priority AI response" data-hi="✓ प्राथमिकता एआई प्रतिक्रिया">✓ Priority AI response</li>
+          </ul>
+          <a href="#waitlist" class="price-btn primary" data-en="Protect My Family" data-hi="अपने परिवार को सुरक्षित करें">Protect My Family</a>
+        </div>
+
+        <div class="price-card annual-card" id="price-annual">
+          <div class="price-header">
+            <div class="price-name" data-en="Prana Annual" data-hi="प्राण वार्षिक">Prana Annual</div>
+            <div class="price-amount">₹1,499<span data-en="/yr" data-hi="/वर्ष">/yr</span></div>
+            <div class="price-tag annual" data-en="Best Value" data-hi="सर्वश्रेष्ठ बचत">Best Value</div>
+          </div>
+          <a href="#waitlist" class="price-btn ghost" data-en="Go Annual" data-hi="वार्षिक योजना चुनें">Go Annual</a>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- TECHNOLOGY -->
+  <section class="tech-section" id="technology">
+    <div class="container">
+      <div class="section-badge">Architecture</div>
+      <h2 class="section-title">Built for<br/><span class="gradient-text">World-Class Performance</span></h2>
+      <div class="tech-grid">
+        <div class="tech-card" id="tech-frontend">
+          <div class="tech-icon">📱</div>
+          <div class="tech-name">FlutterFlow</div>
+          <div class="tech-role">Frontend · Native Speed</div>
+          <p>Bio-Minimalist design system. Native performance across iOS, Android, and Web.</p>
+        </div>
+        <div class="tech-card" id="tech-backend">
+          <div class="tech-icon">🐘</div>
+          <div class="tech-name">Supabase</div>
+          <div class="tech-role">Backend · Auth · Database</div>
+          <p>PostgreSQL for complex medical relational data. Realtime sync. HIPAA-ready architecture.</p>
+        </div>
+        <div class="tech-card highlighted-tech" id="tech-ai">
+          <div class="tech-icon">🧠</div>
+          <div class="tech-name">Bytez API</div>
+          <div class="tech-role">Intelligence Core</div>
+          <p>Llama 3.1 8B for text reasoning. Llama 3.2 11B Vision for OCR & image analysis. Sovereign. Private.</p>
+          <div class="tech-models">
+            <span class="model-tag">Llama 3.1 8B</span>
+            <span class="model-tag">Llama 3.2 11B</span>
+          </div>
+        </div>
+        <div class="tech-card" id="tech-deploy">
+          <div class="tech-icon">⚡</div>
+          <div class="tech-name">Vercel Edge</div>
+          <div class="tech-role">Deployment · CDN</div>
+          <p>Global edge hosting. Sub-50ms response times worldwide. Zero cold-start latency.</p>
+        </div>
+        <div class="tech-card" id="tech-emergency">
+          <div class="tech-icon">🚨</div>
+          <div class="tech-name">Google Maps API</div>
+          <div class="tech-role">Emergency Engine</div>
+          <p>Hyper-local ambulance and ER routing. Life-saving one-tap emergency dial in critical moments.</p>
+        </div>
+        <div class="tech-card" id="tech-privacy">
+          <div class="tech-icon">🔒</div>
+          <div class="tech-name">Red Shield™</div>
+          <div class="tech-role">Safety · Compliance</div>
+          <p>Proprietary safety layer. Cross-references AI output with medical history. DPDP Act & GDPR ready.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- SAFETY SECTION -->
+  <section class="safety-section" id="safety">
+    <div class="container">
+      <div class="safety-inner">
+        <div class="safety-content">
+          <div class="section-badge" data-en="Trust & Sovereignty" data-hi="विश्वास और संप्रभुता">Trust & Sovereignty</div>
+          <h2 class="section-title" style="text-align:left;">
+            <span data-en="Sovereign Intelligence." data-hi="स्वतंत्र बुद्धिमत्ता।">Sovereign Intelligence.</span><br/>
+            <span class="gradient-text" data-en="Global Standards." data-hi="वैश्विक मानक।">Global Standards.</span>
+          </h2>
+          <p class="section-sub" style="text-align:left;max-width:500px;" data-en="Built on Open-Source AI. Your data never leaves our secure vaults." data-hi="ओपन-सोर्स एआई पर आधारित। आपका डेटा हमेशा सुरक्षित और गोपनीय है।">Built on Open-Source AI. Your data never leaves our secure vaults.</p>
+          <div class="safety-pillars">
+            <div class="safety-item" id="safety-nodose">
+              <div class="safety-icon">🚫</div>
+              <div>
+                <h4>No Dosage. No Diagnosis.</h4>
+                <p>Prana provides Supportive Care Guidance only. We never prescribe, diagnose, or recommend specific dosages.</p>
+              </div>
+            </div>
+            <div class="safety-item" id="safety-redflag">
+              <div class="safety-icon">🚨</div>
+              <div>
+                <h4>Red-Flag Detection</h4>
+                <p>Critical symptoms trigger immediate emergency protocols — direct-dial to the 3 nearest ambulances.</p>
+              </div>
+            </div>
+            <div class="safety-item" id="safety-privacy">
+              <div class="safety-icon">🛡️</div>
+              <div>
+                <h4>Sovereignty Guarantee</h4>
+                <p>Open source LLMs via Bytez. Your health data never trains a Big Tech model. DPDP Act & GDPR compliant.</p>
+              </div>
+            </div>
+            <div class="safety-item" id="safety-contraindication">
+              <div class="safety-icon">⚕️</div>
+              <div>
+                <h4>Contraindication Shield</h4>
+                <p>All AI guidance is cross-referenced with your uploaded medical history to prevent harmful interactions.</p>
+              </div>
+            </div>
+          </div>
+        </div>
+        <div class="safety-visual">
+          <div class="shield-graphic">
+            <div class="shield-outer">
+              <div class="shield-inner">
+                <div class="shield-core">
+                  <svg width="80" height="80" viewBox="0 0 80 80" fill="none">
+                    <path d="M40 8L12 20v22c0 15.5 11.7 30 28 32.5C56.3 72 68 57.5 68 42V20L40 8z" stroke="url(#shieldGrad)" stroke-width="3" fill="url(#shieldFill)"/>
+                    <path d="M28 40l8 8 16-16" stroke="#fff" stroke-width="3" stroke-linecap="round" stroke-linejoin="round"/>
+                    <defs>
+                      <linearGradient id="shieldGrad" x1="0" y1="0" x2="80" y2="80">
+                        <stop offset="0%" stop-color="#00E5CC"/>
+                        <stop offset="100%" stop-color="#6C63FF"/>
+                      </linearGradient>
+                      <linearGradient id="shieldFill" x1="0" y1="0" x2="80" y2="80">
+                        <stop offset="0%" stop-color="#00E5CC" stop-opacity="0.15"/>
+                        <stop offset="100%" stop-color="#6C63FF" stop-opacity="0.15"/>
+                      </linearGradient>
+                    </defs>
+                  </svg>
+                </div>
+              </div>
+              <div class="shield-ring-1"></div>
+              <div class="shield-ring-2"></div>
+              <div class="shield-ring-3"></div>
+            </div>
+            <div class="compliance-badges">
+              <div class="comp-badge">DPDP Act 2023</div>
+              <div class="comp-badge">GDPR Ready</div>
+              <div class="comp-badge">Open Source AI</div>
+              <div class="comp-badge">No Data Selling</div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- ROADMAP -->
+  <section class="roadmap-section" id="roadmap">
+    <div class="container">
+          <div class="section-badge" data-en="Emergency Engine" data-hi="आपातकालीन सेवाएँ">Emergency Engine</div>
+          <h1 class="section-title" style="text-align:center;">
+            <span data-en="Instant Emergency Routing." data-hi="आपातकालीन एम्बुलेंस सेवा">Instant Emergency Routing.</span>
+          </h1>
+          <p class="section-sub" style="text-align:center;" data-en="Seconds matter. We route you to the 3 nearest ambulances in your city instantly." data-hi="समय कीमती है। हम आपको तुरंत आपके शहर की 3 सबसे नजदीकी एम्बुलेंस सेवाओं से जोड़ते हैं।">Seconds matter. We route you to the 3 nearest ambulances in your city instantly.</p>
+      <div class="roadmap-track">
+        <div class="roadmap-line"></div>
+        <div class="roadmap-phase active" id="phase-1">
+          <div class="phase-dot active"></div>
+          <div class="phase-card">
+            <div class="phase-period">Months 1–3</div>
+            <div class="phase-name">Phase 1: MVP Launch</div>
+            <p>Launch the Always Free Product Scanner (Guardian). Go viral via social proof. Build our first 100K users on the privacy narrative.</p>
+            <div class="phase-tag active-tag">In Progress</div>
+          </div>
+        </div>
+        <div class="roadmap-phase" id="phase-2">
+          <div class="phase-dot"></div>
+          <div class="phase-card">
+            <div class="phase-period">Months 4–12</div>
+            <div class="phase-name">Phase 2: Platform Activation</div>
+            <p>Activate the Life-Map™ and Report Interpreter modules. Convert free users to ₹299/₹499 subscription tiers via demonstrated ROI.</p>
+            <div class="phase-tag upcoming-tag">Upcoming</div>
+          </div>
+        </div>
+        <div class="roadmap-phase" id="phase-3">
+          <div class="phase-dot"></div>
+          <div class="phase-card">
+            <div class="phase-period">Year 2+</div>
+            <div class="phase-name">Phase 3: Ecosystem & B2B2C</div>
+            <p>Partner with Insurance Providers and Diagnostic Labs. Transition to a B2B2C model offering Prana as a "Value-Add" to enterprise clients at scale.</p>
+            <div class="phase-tag future-tag">Future</div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- WAITLIST CTA -->
+  <section class="waitlist-section" id="waitlist">
+    <div class="container">
+      <div class="waitlist-inner">
+        <div class="orb orb-wl-1"></div>
+        <div class="orb orb-wl-2"></div>
+        <div class="section-badge" data-en="Early Access" data-hi="जल्द पहुंच">Early Access</div>
+        <h2 class="section-title">
+          <span data-en="Be Among the First" data-hi="पहले 500">Be Among the First</span><br/>
+          <span class="gradient-text" data-en="500 Prana Guardians" data-hi="प्राण रक्षकों में शामिल हों">500 Prana Guardians</span>
+        </h2>
+        <p class="section-sub" data-en="Join the waitlist. Get lifetime Early Adopter pricing and shape the future of health intelligence in India." data-hi="प्रतीक्षा सूची में शामिल हों। लाइफटाइम अर्ली अडॉप्टर मूल्य निर्धारण प्राप्त करें और भारत में स्वास्थ्य बुद्धिमत्ता के भविष्य को आकार दें।">Join the waitlist. Get lifetime Early Adopter pricing and shape the future of health intelligence in India.</p>
+        <form class="waitlist-form" id="waitlist-form" novalidate>
+          <div class="form-row">
+            <div class="form-group">
+              <input type="text" id="wl-name" name="name" placeholder="Your full name" required autocomplete="name"/>
+              <label for="wl-name" data-en="Full Name" data-hi="पूरा नाम">Full Name</label>
+            </div>
+            <div class="form-group">
+              <input type="email" id="wl-email" name="email" placeholder="Your email address" required autocomplete="email"/>
+              <label for="wl-email" data-en="Email Address" data-hi="ईमेल पता">Email Address</label>
+            </div>
+          </div>
+          <button type="submit" class="btn-primary full-width" id="wl-submit-btn">
+            <span id="wl-btn-text" data-en="Reserve My Spot" data-hi="अपना स्थान सुरक्षित करें">Reserve My Spot</span>
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="none"><path d="M5 12h14M12 5l7 7-7 7" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"/></svg>
+          </button>
+          <div class="form-note" data-en="🔒 No spam. No data selling. Your information is protected." data-hi="🔒 कोई स्पैम नहीं। कोई डेटा बिक्री नहीं। आपकी जानकारी सुरक्षित है।">🔒 No spam. No data selling. Your information is protected.</div>
+        </form>
+        <div class="success-message" id="wl-success" style="display:none;">
+          <div class="success-icon">🎉</div>
+          <h3 data-en="You're on the List!" data-hi="आप सूची में हैं!">You're on the List!</h3>
+          <p data-en="Welcome to the Prana family. We'll reach out with Early Adopter pricing." data-hi="प्राण परिवार में आपका स्वागत है। हम अर्ली अडॉप्टर मूल्य निर्धारण के साथ आपसे संपर्क करेंगे।">Welcome to the Prana family. We'll reach out with Early Adopter pricing.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+
+  <!-- FOOTER -->
+  <footer class="footer" id="footer">
+    <div class="container">
+      <div class="footer-grid">
+        <div class="footer-brand">
+          <a href="#" class="nav-logo" id="footer-logo">
+            <div class="logo-mark">
+              <svg width="32" height="32" viewBox="0 0 36 36" fill="none">
+                <circle cx="18" cy="18" r="17" stroke="url(#logoGradF)" stroke-width="2"/>
+                <path d="M10 18 Q14 8 18 18 Q22 28 26 18" stroke="url(#logoGradF)" stroke-width="2.5" fill="none" stroke-linecap="round"/>
+                <circle cx="18" cy="18" r="3" fill="url(#logoGradF)"/>
+                <defs>
+                  <linearGradient id="logoGradF" x1="0" y1="0" x2="36" y2="36">
+                    <stop offset="0%" stop-color="#00E5CC"/>
+                    <stop offset="100%" stop-color="#6C63FF"/>
+                  </linearGradient>
+                </defs>
+              </svg>
+            </div>
+            <span class="logo-text">Prana<span class="logo-accent">Health</span></span>
+          </a>
+          <p class="footer-tagline">A sovereign Health Operating System for every home in Bharat and beyond.</p>
+          <div class="footer-compliance">
+            <span>🛡️ DPDP Act 2023</span>
+            <span>🇮🇳 Made in India</span>
+          </div>
+        </div>
+        <div class="footer-col">
+          <h4>Product</h4>
+          <ul>
+            <li><a href="#modules" id="footer-consult">Symptom Analyst</a></li>
+            <li><a href="#modules" id="footer-records">Report Interpreter</a></li>
+            <li><a href="#modules" id="footer-guardian">Product Lens (Guardian)</a></li>
+            <li><a href="#pricing" id="footer-pricing">Pricing</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Technology</h4>
+          <ul>
+            <li><a href="#technology" id="footer-bytez">Bytez AI (Llama)</a></li>
+            <li><a href="#technology" id="footer-supabase">Supabase Backend</a></li>
+            <li><a href="#safety" id="footer-redshield">Red Shield™</a></li>
+            <li><a href="#safety" id="footer-privacy">Privacy First</a></li>
+          </ul>
+        </div>
+        <div class="footer-col">
+          <h4>Company</h4>
+          <ul>
+            <li><a href="#roadmap" id="footer-roadmap">Roadmap</a></li>
+            <li><a href="#waitlist" id="footer-waitlist">Join Waitlist</a></li>
+            <li><a href="#" id="footer-terms">Terms of Service</a></li>
+            <li><a href="#" id="footer-privacy-policy">Privacy Policy</a></li>
+          </ul>
+        </div>
+      </div>
+      <div class="footer-bottom">
+        <p>© 2026 Prana Health Intelligence Pvt. Ltd. · Designed & Developed by <strong>EyE PunE</strong></p>
+        <p class="footer-disclaimer">Prana provides Supportive Care Guidance only and is not a substitute for professional medical advice, diagnosis, or treatment.</p>
+      </div>
+    </div>
+  </footer>
+
+  <script src="main.js"></script>
+</body>
+</html>

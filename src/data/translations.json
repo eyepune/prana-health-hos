@@ -1,0 +1,180 @@
+{
+  "EN": {
+    "nav": {
+      "reports": "Reports",
+      "symptoms": "Symptoms",
+      "scanner": "Product Scanner",
+      "how_it_works": "How it Works",
+      "get_started": "Get Started"
+    },
+    "hero": {
+      "title": "Understand Your Health Clearly.",
+      "subtitle": "Upload reports, analyze symptoms, and get structured insights — without confusion.",
+      "cta": "Upload Your First Report",
+      "secondary_cta": "Try Product Scanner"
+    },
+    "trust_strip": {
+      "main": "Your health data stays yours.",
+      "points": ["No data selling", "No external AI training", "Secure & private"]
+    },
+    "features": {
+      "reports_title": "Reports",
+      "reports_desc": "Understand your lab results in simple, structured language.",
+      "symptoms_title": "Symptoms",
+      "symptoms_desc": "Get clear, step-by-step guidance before consulting a doctor.",
+      "scanner_title": "Scanner",
+      "scanner_desc": "Know what you consume — ingredients, medicines, and safety."
+    },
+    "how_it_works": {
+      "step_1": "Upload your report or input your symptoms",
+      "step_2": "AI analyzes your data using structured health models",
+      "step_3": "You get clear insights and next steps"
+    },
+    "who_it_for": [
+      { "title": "Patients", "desc": "Understand your health without confusion" },
+      { "title": "Providers", "desc": "Get better-informed patients" },
+      { "title": "Vendors", "desc": "Reach users with real health needs" }
+    ],
+    "trust_block": {
+      "title": "Built for clarity. Designed for trust.",
+      "points": [
+        "Structured insights, not confusing data",
+        "Privacy-first AI",
+        "Preventive health approach",
+        "Clear next steps, not vague advice"
+      ]
+    },
+    "founder": {
+      "title": "Built to solve real healthcare confusion.",
+      "desc": "Prana was created to make health understandable — not overwhelming.",
+      "cta": "View Founder Profile"
+    },
+    "final_cta": {
+      "title": "Start understanding your health today.",
+      "cta": "Upload Your First Report"
+    },
+    "dashboard": {
+      "greeting": "Namaste, Prana Pioneer",
+      "subtitle": "Bharat Clinical Status: Sovereign",
+      "analyst": "Prana Consult",
+      "analyst_desc": "AI-Driven clinical analysis for the Indian lifestyle.",
+      "records": "Sovereign Records",
+      "records_desc": "ABDHM-Ready clinical document extraction.",
+      "lens": "Shuddhi Lens",
+      "lens_desc": "Scan toxins in Indian groceries & labels.",
+      "appointments": "Sovereign Appointments",
+      "appointments_desc": "Book ABDHM-aligned doctor consultations.",
+      "reminders": "Pill Reminder",
+      "reminders_desc": "Never miss your clinical doses.",
+      "placeholder": "Describe your symptom (e.g. Acidity, Fever)...",
+      "listening": "Listening in Hindi/English...",
+      "emergency": "Raksha Shield Active",
+      "vitality_score": "Vitality Score (Prana)",
+      "awaiting_calibration": "Awaiting Calibration",
+      "sovereign_link": "Sovereign Bharat Link Active ✓",
+      "heart": "Heart",
+      "glucose": "Glucose",
+      "sleep": "Sleep",
+      "alerts": "Alerts",
+      "consult": "Consult",
+      "consult_desc": "Indian-first clinical recovery system. Powered by Llama 3.1 8B.",
+      "consult_welcome": "Namaste. I am the Prana Bharat Engine. I combine Clinical Allopathy with Indian Dietary wisdom. Describe your current symptoms.",
+      "privacy_active": "Privacy Mode: Sovereign",
+      "incognito_medical": "Gupt Medical",
+      "biomarker_extraction": "Clinical Extraction",
+      "upload_report": "+ Upload Lab Report (ABDHM Aligned)",
+      "vitality_timeline": "Vitality Timeline",
+      "clinical_interpretation": "Bharat Interpretation",
+      "interpretation_text": "Your glucose levels align with the Indian clinical average. Suggested: Reduced seed oil intake (4-Pillar Diet)."
+    }
+  },
+  "HI": {
+    "nav": {
+      "reports": "रिपोर्ट",
+      "symptoms": "लक्षण",
+      "scanner": "उत्पाद स्कैनर",
+      "how_it_works": "यह कैसे काम करता है",
+      "get_started": "शुरू करें"
+    },
+    "hero": {
+      "title": "अपने स्वास्थ्य को स्पष्ट रूप से समझें।",
+      "subtitle": "रिपोर्ट अपलोड करें, लक्षणों का विश्लेषण करें और उत्पादों को स्कैन करें - सब कुछ एक प्राइवेसी-फर्स्ट हेल्थ इंटेलिजेंस सिस्टम में।",
+      "cta": "अपनी पहली रिपोर्ट अपलोड करें",
+      "secondary_cta": "उत्पाद स्कैनर आज़माएँ"
+    },
+    "trust_strip": {
+      "main": "आपका स्वास्थ्य डेटा आपका ही रहता है।",
+      "points": ["कोई डेटा बिक्री नहीं", "कोई बाहरी एआई प्रशिक्षण नहीं", "सुरक्षित और निजी"]
+    },
+    "features": {
+      "reports_title": "रिपोर्ट",
+      "reports_desc": "सरल, संरचित भाषा में अपने लैब परिणामों को समझें।",
+      "symptoms_title": "लक्षण",
+      "symptoms_desc": "डॉक्टर से परामर्श करने से पहले स्पष्ट, चरण-दर-चरण मार्गदर्शन प्राप्त करें।",
+      "scanner_title": "स्कैनर",
+      "scanner_desc": "जानें कि आप क्या खाते हैं - सामग्री, दवाएं और सुरक्षा।"
+    },
+    "how_it_works": {
+      "step_1": "अपनी रिपोर्ट अपलोड करें या अपने लक्षण लिखें",
+      "step_2": "एआई संरचित स्वास्थ्य मॉडलों का उपयोग करके आपके डेटा का विश्लेषण करता है",
+      "step_3": "आपको स्पष्ट अंतर्दृष्टि और अगले कदम मिलते हैं"
+    },
+    "who_it_for": [
+      { "title": "रोगी", "desc": "बिना भ्रम के अपने स्वास्थ्य को समझें" },
+      { "title": "प्रदाता", "desc": "बेहतर जानकारी वाले मरीज प्राप्त करें" },
+      { "title": "विक्रेता", "desc": "वास्तविक स्वास्थ्य आवश्यकताओं वाले उपयोगकर्ताओं तक पहुंचें" }
+    ],
+    "trust_block": {
+      "title": "स्पष्टता के लिए निर्मित। भरोसे के लिए डिज़ाइन किया गया।",
+      "points": [
+        "संरचित अंतर्दृष्टि, भ्रमित करने वाला डेटा नहीं",
+        "प्राइवेसी-फर्स्ट एआई",
+        "निवारक स्वास्थ्य दृष्टिकोण",
+        "स्पष्ट अगले कदम, अस्पष्ट सलाह नहीं"
+      ]
+    },
+    "founder": {
+      "title": "वास्तविक स्वास्थ्य भ्रम को दूर करने के लिए निर्मित।",
+      "desc": "प्राण को स्वास्थ्य को समझने योग्य बनाने के लिए बनाया गया था - भारी नहीं।",
+      "cta": "संस्थापक प्रोफ़ाइल देखें"
+    },
+    "final_cta": {
+      "title": "आज ही अपने स्वास्थ्य को समझना शुरू करें।",
+      "cta": "अपनी पहली रिपोर्ट अपलोड करें"
+    },
+    "dashboard": {
+      "greeting": "नमस्ते, प्राण पायनियर",
+      "subtitle": "भारत क्लिनिकल स्थिति: संप्रभु",
+      "analyst": "प्राण परामर्श",
+      "analyst_desc": "भारतीय जीवनशैली के लिए एआई-संचालित क्लिनिकल विश्लेषण।",
+      "records": "संप्रभु रिकॉर्ड्स",
+      "records_desc": "ABDHM-तैयार क्लिनिकल दस्तावेज़ निष्कर्षण।",
+      "lens": "शुद्धि लेंस",
+      "lens_desc": "भारतीय किराने और लेबल में विषाक्त पदार्थों को स्कैन करें।",
+      "appointments": "संप्रभु नियुक्तियां",
+      "appointments_desc": "ABDHM-संरेखित डॉक्टर परामर्श बुक करें।",
+      "reminders": "दवा अनुस्मारक",
+      "reminders_desc": "अपनी नैदानिक खुराक कभी न भूलें।",
+      "placeholder": "अपने लक्षण का वर्णन करें (जैसे कि एसिडिटी, बुखार)...",
+      "listening": "हिंदी/अंग्रेजी में सुन रहे हैं...",
+      "emergency": "रक्षा कवच सक्रिय",
+      "vitality_score": "जीवन शक्ति स्कोर (प्राण)",
+      "awaiting_calibration": "कैलिब्रेशन का इंतज़ार",
+      "sovereign_link": "संप्रभु भारत लिंक सक्रिय ✓",
+      "heart": "हृदय",
+      "glucose": "ग्लूकोज",
+      "sleep": "नींद",
+      "alerts": "अलर्ट",
+      "consult": "परामर्श",
+      "consult_desc": "भारत-प्रथम क्लिनिकल रिकवरी सिस्टम। लामा 3.1 8B द्वारा संचालित।",
+      "consult_welcome": "नमस्ते। मैं प्राण भारत इंजन हूं। मैं भारतीय आहार विज्ञान के साथ क्लिनिकल एलोपैथी को जोड़ता हूं। कृपया अपने वर्तमान लक्षणों का वर्णन करें।",
+      "privacy_active": "प्राइवेसी मोड: संप्रभु",
+      "incognito_medical": "गुप्त मेडिकल",
+      "biomarker_extraction": "क्लिनिकल निष्कर्षण",
+      "upload_report": "+ लैब रिपोर्ट अपलोड करें (ABDHM संरेखित)",
+      "vitality_timeline": "जीवन शक्ति टाइमलाइन",
+      "clinical_interpretation": "भारत व्याख्या",
+      "interpretation_text": "आपका ग्लूकोज स्तर भारतीय नैदानिक औसत के अनुरूप है। सुझाव: परिष्कृत तेलों का सेवन कम करें (4-स्तंभ आहार)।"
+    }
+  }
+}
