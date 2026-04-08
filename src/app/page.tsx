@@ -96,7 +96,7 @@ export default function LandingPage() {
           />
         </div>
         
-        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center relative z-10 w-full">
+        <div className="max-w-7xl mx-auto px-6 grid grid-cols-1 lg:grid-cols-2 gap-20 items-center justify-items-center relative z-10 w-full">
           {/* LEFT: ANIMATED CIRCULAR SYSTEM */}
           <motion.div 
             initial={{ opacity: 0, scale: 0.9 }}
@@ -165,7 +165,7 @@ export default function LandingPage() {
             initial={{ opacity: 0, x: 30 }}
             animate={{ opacity: 1, x: 0 }}
             transition={{ duration: 1, delay: 0.2 }}
-            className="space-y-12 order-1 lg:order-2 text-center lg:text-left"
+            className="space-y-12 order-1 lg:order-2 text-center"
           >
             <div className="space-y-6">
               <h1 className="text-6xl md:text-8xl font-outfit font-black text-authority tracking-tighter leading-[0.95]">
