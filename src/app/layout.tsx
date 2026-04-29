@@ -29,8 +29,7 @@ export default function RootLayout({
       <body className={`${inter.variable} ${outfit.variable} ${notoHindi.variable} font-sans antialiased bg-cream`}>
         <LanguageProvider>
           <UserProvider>
-            <FloatingNav />
-            <main className="min-h-screen pt-24 overflow-x-hidden">
+            <main className="min-h-screen overflow-x-hidden">
               {children}
             </main>
           </UserProvider>

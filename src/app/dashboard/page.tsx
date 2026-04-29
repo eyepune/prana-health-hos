@@ -22,7 +22,10 @@ import {
    TrendingUp,
    Scan,
    Calendar,
-   Clock
+   Clock,
+   Search,
+   User,
+   Cpu
 } from "lucide-react";
 import PranaLogo3 from "@/components/PranaLogo3";
 import EmergencyGlow from "@/components/EmergencyGlow";
@@ -43,34 +46,69 @@ export default function Dashboard() {
    const [messages, setMessages] = useState([
       { role: "assistant", content: t.dashboard.consult_welcome }
    ] as { role: string; content: string }[]);
+   
    const [records, setRecords] = useState([] as any[]);
+   const [appointments, setAppointments] = useState([] as any[]);
+   const [reminders, setReminders] = useState([] as any[]);
    const [isLoading, setIsLoading] = useState(false);
    const [vitalityScore, setVitalityScore] = useState(0);
 
-   const fetchRecords = async () => {
+   const fetchData = async () => {
       if (!profile?.id) return;
-      const { data, error } = await supabase
+      
+      // 1. Fetch Vitality Records
+      const { data: vData } = await supabase
          .from('vitality_records')
          .select('*')
          .eq('user_id', profile.id)
          .order('created_at', { ascending: false });
 
-      if (data) {
-         setRecords(data.map(r => ({
+      if (vData) {
+         setRecords(vData.map(r => ({
             marker: r.marker_name,
             value: r.marker_value,
             unit: "", 
             status: r.vitality_score > 70 ? 'normal' : 'low',
             date: new Date(r.created_at).toLocaleDateString()
          })));
-
-         const avg = data.reduce((acc, curr) => acc + (curr.vitality_score || 0), 0) / data.length;
+         const avg = vData.reduce((acc, curr) => acc + (curr.vitality_score || 0), 0) / vData.length;
          setVitalityScore(Math.round(avg || 0));
       }
+
+      // 2. Fetch Consultations (Chat History)
+      const { data: cData } = await supabase
+         .from('consultations')
+         .select('*')
+         .eq('user_id', profile.id)
+         .order('created_at', { ascending: true });
+
+      if (cData && cData.length > 0) {
+         const history = cData.flatMap(c => [
+            { role: "user", content: c.query },
+            { role: "assistant", content: c.response?.content || "" }
+         ]);
+         setMessages([{ role: "assistant", content: t.dashboard.consult_welcome }, ...history]);
+      }
+
+      // 3. Fetch Appointments
+      const { data: aData } = await supabase
+         .from('appointments')
+         .select('*')
+         .eq('user_id', profile.id)
+         .order('appointment_date', { ascending: true });
+      if (aData) setAppointments(aData);
+
+      // 4. Fetch Reminders
+      const { data: rData } = await supabase
+         .from('reminders')
+         .select('*')
+         .eq('user_id', profile.id)
+         .order('created_at', { ascending: true });
+      if (rData) setReminders(rData);
    };
 
    useEffect(() => {
-      fetchRecords();
+      fetchData();
    }, [profile?.id]);
 
    const handleSendMessage = async () => {
@@ -94,7 +132,7 @@ export default function Dashboard() {
 
          const data = await response.json();
          if (data.content) {
-            setMessages(prev => [...prev, data.content]);
+            setMessages(prev => [...prev, { role: "assistant", content: data.content }]);
          } else {
             setMessages(prev => [...prev, { role: "assistant", content: "Sync failed. Please try again." }]);
          }
@@ -117,111 +155,192 @@ export default function Dashboard() {
    }, []);
 
    return (
-      <div className="min-h-screen bg-cream selection:bg-sage/10 p-6 md:p-8 space-y-8">
-         {/* Header */}
-         <header className="max-w-7xl mx-auto flex items-center justify-between">
-            <div>
-               <h1 className="text-4xl md:text-5xl font-outfit font-black tracking-tighter text-authority leading-none uppercase">
-                  {t.dashboard.greeting}
-               </h1>
-               <div className="flex items-center gap-2 mt-2">
-                  <ShieldCheck className="w-4 h-4 text-sage animate-pulse" />
-                  <span className="text-[10px] font-bold uppercase tracking-widest text-authority/40">{t.dashboard.subtitle}</span>
+      <div className="min-h-screen bg-[#F0F2F0] selection:bg-teal/10 p-4 md:p-12 space-y-12">
+         
+         {/* 🛠 TOP BAR CONTROL */}
+         <header className="max-w-[1600px] mx-auto flex items-center justify-between">
+            <div className="flex items-center gap-8">
+               <div className="p-4 glass-card bg-white rounded-3xl">
+                  <PranaLogo3 size={40} pulse={true} />
+               </div>
+               <div>
+                  <h1 className="text-4xl font-outfit font-black tracking-tighter text-authority uppercase leading-none">
+                     Command Center
+                  </h1>
+                  <div className="flex items-center gap-3 mt-2">
+                     <div className="w-2 h-2 rounded-full bg-teal animate-pulse" />
+                     <span className="text-[9px] font-black uppercase tracking-[0.4em] text-authority/30">Resident: {profile?.name || "Initializing..."}</span>
+                  </div>
                </div>
             </div>
+            
             <div className="flex items-center gap-4">
-               <button className="p-3 glass-card rounded-full hover:bg-white transition-colors relative">
-                  <Bell className="w-5 h-5 text-authority/60" />
-                  <div className="absolute top-3 right-3 w-2 h-2 bg-saffron rounded-full border-2 border-cream" />
+               <div className="hidden md:flex items-center gap-6 px-8 py-4 glass-card bg-white/50 rounded-full border-white/50">
+                  <div className="flex flex-col items-end">
+                     <span className="text-[8px] font-black text-authority/20 uppercase tracking-widest">System_State</span>
+                     <span className="text-[10px] font-bold text-teal uppercase tracking-widest">Operational</span>
+                  </div>
+                  <div className="w-[1px] h-6 bg-authority/5" />
+                  <div className="flex flex-col items-end">
+                     <span className="text-[8px] font-black text-authority/20 uppercase tracking-widest">Sovereign_Node</span>
+                     <span className="text-[10px] font-bold text-authority uppercase tracking-widest">Bharat_Mainnet</span>
+                  </div>
+               </div>
+               <button className="p-4 glass-card bg-white rounded-full hover:scale-110 transition-all text-authority/40 hover:text-teal">
+                  <Bell className="w-6 h-6" />
                </button>
-               <button className="p-3 glass-card rounded-full hover:bg-white transition-colors">
-                  <Settings className="w-5 h-5 text-authority/60" />
+               <button className="p-4 glass-card bg-white rounded-full hover:scale-110 transition-all text-authority/40 hover:text-teal">
+                  <Settings className="w-6 h-6" />
                </button>
             </div>
          </header>
 
-         {/* Main Grid */}
-         <main className="max-w-7xl mx-auto space-y-8">
-            <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
-               {/* Vitality Hub Card */}
-               <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row gap-12 bg-white/70">
-                  <div className="flex items-center gap-8">
-                     <div className="w-24 h-24 rounded-full border-[6px] border-sage/20 border-t-sage animate-[spin_4s_linear_infinite] p-1">
-                        <div className="w-full h-full rounded-full bg-cream flex items-center justify-center font-outfit font-black text-2xl text-sage">{vitalityScore || "--"}</div>
+         {/* 🧩 MAIN OPERATIONAL GRID */}
+         <main className="max-w-[1600px] mx-auto grid grid-cols-1 lg:grid-cols-12 gap-8">
+            
+            {/* LEFT COLUMN: VITALITY & EMERGENCY */}
+            <div className="lg:col-span-4 space-y-8">
+               {/* Vitality Core */}
+               <div className="glass-card bg-white p-10 rounded-[48px] border-none shadow-2xl shadow-black/[0.02] flex flex-col items-center text-center space-y-10">
+                  <div className="relative">
+                     <svg className="w-56 h-56 -rotate-90">
+                        <circle cx="112" cy="112" r="100" fill="transparent" stroke="currentColor" strokeWidth="8" className="text-authority/5" />
+                        <circle cx="112" cy="112" r="100" fill="transparent" stroke="currentColor" strokeWidth="12" strokeDasharray={628} strokeDashoffset={628 - (628 * vitalityScore) / 100} strokeLinecap="round" className="text-teal transition-all duration-1000" />
+                     </svg>
+                     <div className="absolute inset-0 flex flex-col items-center justify-center">
+                        <span className="text-6xl font-outfit font-black text-authority leading-none">{vitalityScore || "--"}</span>
+                        <span className="text-[10px] font-black uppercase tracking-[0.4em] text-authority/20 mt-2">Vitality</span>
+                     </div>
+                  </div>
+                  <div className="space-y-4">
+                     <h3 className="text-2xl font-outfit font-black uppercase tracking-tight text-authority">
+                        {vitalityScore > 80 ? "Peak State" : vitalityScore > 50 ? "Balanced" : "Calibrating..."}
+                     </h3>
+                     <p className="text-[11px] font-medium text-authority/40 leading-relaxed uppercase tracking-widest px-8">
+                        Your biological map is now synchronizing with hOS Clinical protocols.
+                     </p>
+                  </div>
+                  <button 
+                     onClick={() => setActiveModule("records")}
+                     className="w-full py-6 bg-teal/5 text-teal border border-teal/10 rounded-3xl font-black text-[10px] uppercase tracking-[0.4em] hover:bg-teal hover:text-white transition-all"
+                  >
+                     View Full Bio-Map™
+                  </button>
+               </div>
+
+               {/* Raksha Shield */}
+               <div className="glass-card bg-authority p-10 rounded-[48px] text-white flex flex-col justify-between aspect-square md:aspect-auto md:h-80 overflow-hidden relative group">
+                  <div className="space-y-4 relative z-10">
+                     <h4 className="text-[10px] font-black uppercase tracking-[0.5em] opacity-40">Security_Protocol</h4>
+                     <p className="text-5xl font-outfit font-black tracking-tighter uppercase italic leading-none">Raksha<br />Shield</p>
+                  </div>
+                  <div className="flex items-center justify-between relative z-10">
+                     <div className="flex items-center gap-3 bg-white/10 px-4 py-2 rounded-full">
+                        <div className="w-2 h-2 rounded-full bg-saffron animate-ping" />
+                        <span className="text-[9px] font-black tracking-widest uppercase">{userLocation}</span>
+                     </div>
+                     <button 
+                        onClick={() => setIsEmergency(true)}
+                        className="p-6 bg-white text-authority rounded-full hover:scale-110 transition-all shadow-2xl"
+                     >
+                        <Zap className="w-6 h-6 fill-authority" />
+                     </button>
+                  </div>
+                  <div className="absolute top-0 right-0 w-64 h-64 bg-teal/20 rounded-full blur-[100px] -mr-32 -mt-32" />
+               </div>
+            </div>
+
+            {/* CENTER COLUMN: INTELLIGENCE MODULES */}
+            <div className="lg:col-span-5 space-y-8">
+               <div className="grid grid-cols-2 gap-6">
+                  {[
+                     { id: "consult", title: "Analyst", icon: MessageCircle, color: "teal", desc: "Symptom Logic" },
+                     { id: "records", title: "Records", icon: FileText, color: "saffron", desc: "Bio-Markers" },
+                     { id: "lens", title: "Lens", icon: Scan, color: "teal", desc: "Safety Scan" },
+                     { id: "appointments", title: "Clinics", icon: Calendar, color: "authority", desc: "Local Routing" }
+                  ].map((mod) => (
+                     <button
+                        key={mod.id}
+                        onClick={() => setActiveModule(mod.id as any)}
+                        className="glass-card bg-white p-10 rounded-[40px] flex flex-col items-start gap-12 group hover:translate-y-[-8px] transition-all duration-500 border-none shadow-xl shadow-black/[0.01]"
+                     >
+                        <div className={`p-4 rounded-2xl ${mod.color === 'teal' ? 'bg-teal/5 text-teal group-hover:bg-teal group-hover:text-white' : mod.color === 'saffron' ? 'bg-saffron/5 text-saffron group-hover:bg-saffron group-hover:text-white' : 'bg-authority/5 text-authority group-hover:bg-authority group-hover:text-white'} transition-all duration-500`}>
+                           <mod.icon className="w-8 h-8" />
+                        </div>
+                        <div>
+                           <h3 className="text-2xl font-outfit font-black text-authority uppercase tracking-tighter leading-none">{mod.title}</h3>
+                           <p className="text-[10px] font-bold text-authority/20 uppercase tracking-[0.3em] mt-3">{mod.desc}</p>
+                        </div>
+                     </button>
+                  ))}
+               </div>
+
+               {/* Quick History Strip */}
+               <div className="glass-card bg-white/40 p-8 rounded-[40px] border-white/50 flex items-center justify-between">
+                  <div className="flex items-center gap-6">
+                     <div className="w-12 h-12 rounded-full bg-teal/10 flex items-center justify-center text-teal">
+                        <TrendingUp className="w-6 h-6" />
                      </div>
                      <div>
-                        <h4 className="text-authority/40 text-[10px] font-bold uppercase tracking-widest leading-none mb-2">{t.dashboard.vitality_score}</h4>
-                        <p className="text-3xl font-outfit font-bold tracking-tight">
-                           {vitalityScore > 80 ? "EXCELLENT" : vitalityScore > 50 ? "CALIBRATED" : t.dashboard.awaiting_calibration}
-                        </p>
-                        <p className="text-sage text-[10px] font-bold uppercase mt-2 tracking-widest">{t.dashboard.sovereign_link}</p>
+                        <span className="text-[10px] font-black text-authority/20 uppercase tracking-widest">Recent_Activity</span>
+                        <p className="text-sm font-bold text-authority uppercase mt-0.5">{records[0]?.marker || "No Scans Yet"} extracted</p>
                      </div>
                   </div>
+                  <button 
+                     onClick={() => setActiveModule("records")}
+                     className="text-teal hover:translate-x-2 transition-transform"
+                  >
+                     <ArrowRight className="w-6 h-6" />
+                  </button>
+               </div>
+            </div>
 
-                  <div className="flex-1 grid grid-cols-2 md:grid-cols-4 gap-8 border-l border-authority/5 pl-0 md:pl-12">
-                     {[
-                        { label: t.dashboard.heart, val: "--", icon: Activity, color: "text-sage" },
-                        { label: t.dashboard.glucose, val: "--", icon: Zap, color: "text-saffron" },
-                        { label: t.dashboard.sleep, val: "--", icon: ShieldCheck, color: "text-sage" },
-                        { label: t.dashboard.alerts, val: "0", icon: AlertCircle, color: "text-authority/20" }
-                     ].map((stat, i) => (
-                        <div key={i} className="flex flex-col gap-1">
-                           <stat.icon className={`w-5 h-5 ${stat.color} mb-3`} />
-                           <span className="text-[10px] font-bold text-authority/30 uppercase tracking-[0.2em]">{stat.label}</span>
-                           <span className="text-xl font-outfit font-bold">{stat.val}</span>
+            {/* RIGHT COLUMN: MEDICATIONS & STATS */}
+            <div className="lg:col-span-3 space-y-8">
+               <div className="glass-card bg-white p-10 rounded-[48px] h-full flex flex-col">
+                  <div className="flex items-center justify-between mb-12">
+                     <h3 className="text-xl font-outfit font-black uppercase tracking-tighter text-authority">Vitals Queue</h3>
+                     <button 
+                        onClick={() => setActiveModule("reminders")}
+                        className="p-2 bg-teal/5 text-teal rounded-lg hover:bg-teal hover:text-white transition-all"
+                     >
+                        <Plus className="w-4 h-4" />
+                     </button>
+                  </div>
+                  
+                  <div className="flex-1 space-y-6">
+                     {reminders.length > 0 ? reminders.slice(0, 5).map((r, i) => (
+                        <div key={i} className="flex items-center justify-between p-6 bg-cream/50 rounded-3xl border border-white">
+                           <div className="flex items-center gap-4">
+                              <div className={`w-3 h-3 rounded-full ${r.is_taken ? 'bg-teal' : 'bg-saffron animate-pulse'}`} />
+                              <span className="text-[11px] font-black text-authority/60 uppercase tracking-widest">{r.medication_name}</span>
+                           </div>
+                           <span className="text-base font-outfit font-bold text-authority">{r.time_of_day}</span>
                         </div>
-                     ))}
+                     )) : (
+                        <div className="flex-1 flex flex-col items-center justify-center text-center opacity-20 space-y-4">
+                           <Cpu className="w-12 h-12" />
+                           <p className="text-[10px] font-black uppercase tracking-widest">No Active Reminders</p>
+                        </div>
+                     )}
                   </div>
-               </div>
 
-               {/* Red Shield Card */}
-               <div className="glass-card p-10 bg-authority text-cream flex flex-col justify-between overflow-hidden relative group border-none shadow-2xl shadow-authority/20">
-                  <div className="space-y-4 relative z-10">
-                     <h3 className="text-[10px] font-bold uppercase tracking-[0.4em] opacity-40">{t.dashboard.emergency}</h3>
-                     <p className="text-4xl font-outfit font-black tracking-tighter uppercase leading-none italic">Raksha<br />Shield</p>
-                     <div className="flex items-center gap-2 text-saffron bg-white/5 py-2 px-4 rounded-full w-fit">
-                        <div className="w-2 h-2 rounded-full bg-saffron animate-ping" />
-                        <span className="text-[10px] font-black tracking-widest uppercase">{userLocation}</span>
+                  {reminders[0] && (
+                     <div className="mt-12 p-8 bg-teal text-white rounded-antigravity shadow-2xl shadow-teal/30">
+                        <div className="flex items-center gap-4 mb-4">
+                           <Clock className="w-5 h-5 opacity-40" />
+                           <span className="text-[10px] font-black uppercase tracking-[0.3em] opacity-40">Next_Reminder</span>
+                        </div>
+                        <p className="text-xl font-outfit font-black leading-tight uppercase">{reminders[0].medication_name}</p>
+                        <p className="text-[10px] font-bold opacity-40 uppercase tracking-widest mt-4">Scheduled: {reminders[0].time_of_day}</p>
                      </div>
-                  </div>
-                  <button
-                     onClick={() => setIsEmergency(true)}
-                     className="w-full py-5 bg-white text-authority hover:bg-cream transition-all rounded-antigravity text-[10px] font-black uppercase tracking-[0.3em] mt-12 relative z-20 shadow-xl"
-                  >
-                     Deploy Shield
-                  </button>
-                  <div className="absolute top-0 right-0 w-48 h-48 bg-red-500/10 rounded-full blur-3xl -mr-24 -mt-24 group-hover:bg-red-500/20 transition-all" />
+                  )}
                </div>
             </div>
 
-            {/* Intelligence Modules */}
-            <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-5 gap-6">
-               {[
-                  { id: "consult" as const, title: t.dashboard.analyst, desc: t.dashboard.analyst_desc, icon: MessageCircle, color: "sage" },
-                  { id: "records" as const, title: t.dashboard.records, desc: t.dashboard.records_desc, icon: FileText, color: "saffron" },
-                  { id: "lens" as const, title: t.dashboard.lens, desc: t.dashboard.lens_desc, icon: Scan, color: "authority" },
-                  { id: "appointments" as const, title: t.dashboard.appointments, desc: t.dashboard.appointments_desc, icon: Calendar, color: "sage" },
-                  { id: "reminders" as const, title: t.dashboard.reminders, desc: t.dashboard.reminders_desc, icon: Clock, color: "saffron" }
-               ].map((mod) => (
-                  <button
-                     key={mod.id}
-                     onClick={() => setActiveModule(mod.id)}
-                     className="glass-card p-8 flex flex-col items-start transition-all duration-500 hover:translate-y-[-10px] group text-left border-authority/5 hover:border-authority/20"
-                  >
-                     <div className={`w-12 h-12 rounded-xl flex items-center justify-center transition-all duration-500 mb-6 ${mod.color === 'sage' ? 'bg-sage/5 text-sage group-hover:bg-sage group-hover:text-cream shadow-sage/10 group-hover:shadow-xl' :
-                        mod.color === 'saffron' ? 'bg-saffron/5 text-saffron group-hover:bg-saffron group-hover:text-cream shadow-saffron/10 group-hover:shadow-xl' :
-                           'bg-authority/5 text-authority group-hover:bg-authority group-hover:text-cream shadow-authority/10 group-hover:shadow-xl'
-                        }`}>
-                        <mod.icon className="w-6 h-6" />
-                     </div>
-                     <h3 className="text-xl font-outfit font-black text-authority mb-3 tracking-tighter uppercase leading-tight">{mod.title}</h3>
-                     <p className="text-authority/50 leading-relaxed text-[10px] font-medium">{mod.desc}</p>
-                  </button>
-               ))}
-            </div>
          </main>
 
-         {/* Logic Overlays */}
+         {/* 🧠 INTELLIGENCE OVERLAYS */}
          <AnimatePresence mode="wait">
             {activeModule === "consult" && (
                <motion.div
@@ -229,28 +348,28 @@ export default function Dashboard() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-authority/40 backdrop-blur-xl"
+                  className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-2xl"
                >
                   <motion.div
                      initial={{ opacity: 0, scale: 0.9, y: 50 }}
                      animate={{ opacity: 1, scale: 1, y: 0 }}
                      exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                     className="glass-card max-w-5xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl bg-cream border-white/50"
+                     className="glass-card max-w-5xl w-full h-[85vh] flex flex-col overflow-hidden shadow-3xl bg-cream border-white/50 rounded-[48px]"
                   >
-                     <div className="p-8 border-b border-authority/5 flex items-center justify-between bg-sage/5">
+                     <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-teal text-white">
                         <div className="flex items-center gap-6">
                            <PranaLogo3 size={40} pulse={true} />
-                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter text-authority">{t.dashboard.analyst}</h2>
+                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter">hOS Analyst</h2>
                         </div>
-                        <button onClick={() => setActiveModule(null)} className="p-3 hover:bg-authority/10 rounded-full transition-colors bg-white/50">
-                           <X className="w-6 h-6 text-authority" />
+                        <button onClick={() => setActiveModule(null)} className="p-4 hover:bg-white/10 rounded-full transition-colors">
+                           <X className="w-6 h-6" />
                         </button>
                      </div>
 
-                     <div className="flex-1 overflow-y-auto p-12 space-y-8 bg-white/30">
+                     <div className="flex-1 overflow-y-auto p-12 space-y-10">
                         {messages.map((msg, i) => (
                            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                              <div className={`p-8 rounded-antigravity max-w-[80%] text-base leading-relaxed border shadow-sm ${msg.role === 'user' ? 'bg-authority text-cream rounded-tr-none border-authority/5' : 'bg-white text-authority/80 rounded-tl-none border-authority/5 italic'
+                              <div className={`p-8 rounded-[32px] max-w-[80%] text-base leading-relaxed shadow-xl ${msg.role === 'user' ? 'bg-authority text-white rounded-tr-none' : 'bg-white text-authority/80 rounded-tl-none italic'
                                  }`}>
                                  {msg.content}
                               </div>
@@ -258,52 +377,34 @@ export default function Dashboard() {
                         ))}
                         {isLoading && (
                            <div className="flex justify-start">
-                              <div className="bg-white/50 p-6 rounded-antigravity rounded-tl-none flex gap-2">
-                                 <div className="w-2 h-2 rounded-full bg-sage animate-bounce" />
-                                 <div className="w-2 h-2 rounded-full bg-sage animate-bounce [animation-delay:-.3s]" />
-                                 <div className="w-2 h-2 rounded-full bg-sage animate-bounce [animation-delay:-.5s]" />
+                              <div className="bg-white/50 p-8 rounded-[32px] rounded-tl-none flex gap-3">
+                                 <div className="w-2.5 h-2.5 rounded-full bg-teal animate-bounce" />
+                                 <div className="w-2.5 h-2.5 rounded-full bg-teal animate-bounce [animation-delay:-.3s]" />
+                                 <div className="w-2.5 h-2.5 rounded-full bg-teal animate-bounce [animation-delay:-.5s]" />
                               </div>
                            </div>
                         )}
                      </div>
 
-                     <div className="p-8 bg-cream border-t border-authority/5">
-                        <div className="flex items-center gap-6">
+                     <div className="p-10 bg-white border-t border-authority/5">
+                        <div className="flex items-center gap-8">
                            <div className="flex-1 relative">
                               <input
                                  type="text"
-                                 placeholder={isListening ? t.dashboard.listening : t.dashboard.placeholder}
+                                 placeholder={isListening ? "Listening..." : "Describe Symptom or Query..."}
                                  value={inputValue}
-                                 onChange={(e: React.ChangeEvent<HTMLInputElement>) => setInputValue(e.target.value)}
+                                 onChange={(e) => setInputValue(e.target.value)}
                                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                                 className={`w-full bg-white rounded-antigravity px-8 py-6 pr-16 text-lg font-medium border-2 transition-all outline-none shadow-inner ${isListening ? "border-sage shadow-[0_0_30px_rgba(42,126,116,0.2)] placeholder-sage" : "border-authority/5 focus:border-sage shadow-authority/5"
-                                    }`}
+                                 className="w-full bg-cream rounded-full px-10 py-7 text-lg font-medium border-2 border-transparent focus:border-teal outline-none transition-all shadow-inner"
                               />
-                              <button
-                                 onClick={() => setIsListening(!isListening)}
-                                 className={`absolute right-6 top-1/2 -translate-y-1/2 transition-all p-2 rounded-full ${isListening ? 'bg-sage text-cream animate-pulse' : 'text-authority/20 hover:text-sage hover:bg-sage/5'}`}
-                              >
-                                 <Activity className="w-6 h-6" />
-                              </button>
                            </div>
                            <button
                               onClick={handleSendMessage}
                               disabled={isLoading}
-                              className="p-6 bg-authority text-cream rounded-antigravity shadow-2xl shadow-authority/30 hover:translate-y-[-4px] transition-all disabled:opacity-50"
+                              className="p-8 bg-teal text-white rounded-full shadow-2xl hover:scale-105 transition-all disabled:opacity-50"
                            >
-                              <ArrowRight className="w-6 h-6" />
+                              <ArrowRight className="w-8 h-8" />
                            </button>
-                        </div>
-                        <div className="flex items-center justify-between mt-6 px-4">
-                           <button
-                              onClick={() => setIsIncognito(!isIncognito)}
-                              className={`flex items-center gap-2 text-[10px] font-black uppercase tracking-[0.2em] transition-all p-2 px-6 rounded-full border-2 ${isIncognito ? "text-saffron bg-white border-saffron/30 shadow-lg shadow-saffron/10" : "text-authority/20 border-transparent hover:border-authority/10"
-                                 }`}
-                           >
-                              {isIncognito ? <ShieldOff className="w-4 h-4" /> : <ShieldCheck className="w-4 h-4" />}
-                              {isIncognito ? t.dashboard.privacy_active : t.dashboard.incognito_medical}
-                           </button>
-                           <span className="text-[10px] font-black text-authority/10 uppercase tracking-widest">Bytez.js Clinical Protocol 1.0</span>
                         </div>
                      </div>
                   </motion.div>
@@ -313,7 +414,13 @@ export default function Dashboard() {
             {activeModule === "records" && (
                <HealthRecordsModal 
                   onClose={() => setActiveModule(null)}
-                  onRecordAdded={fetchRecords}
+                  onRecordAdded={fetchData}
+               />
+            )}
+
+            {activeModule === "lens" && (
+               <ProductLens 
+                  onClose={() => setActiveModule(null)}
                />
             )}
 
@@ -323,48 +430,51 @@ export default function Dashboard() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-authority/40 backdrop-blur-xl"
+                  className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-2xl"
                >
                   <motion.div
                      initial={{ opacity: 0, scale: 0.9, y: 50 }}
                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                     exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                     className="glass-card max-w-5xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl bg-cream border-white/50"
+                     className="glass-card max-w-5xl w-full h-[85vh] flex flex-col overflow-hidden shadow-3xl bg-cream border-white/50 rounded-[48px]"
                   >
-                     <div className="p-8 border-b border-authority/5 flex items-center justify-between bg-sage/5">
+                     <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-teal text-white">
                         <div className="flex items-center gap-6">
                            <PranaLogo3 size={40} pulse={true} />
-                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter text-authority">{t.dashboard.appointments}</h2>
+                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter">Clinical Routing</h2>
                         </div>
-                        <button onClick={() => setActiveModule(null)} className="p-3 hover:bg-authority/10 rounded-full transition-colors bg-white/50">
-                           <X className="w-6 h-6 text-authority" />
+                        <button onClick={() => setActiveModule(null)} className="p-4 hover:bg-white/10 rounded-full transition-colors">
+                           <X className="w-6 h-6" />
                         </button>
                      </div>
-
-                     <div className="flex-1 overflow-y-auto p-12 space-y-12 bg-white/30">
-                        <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
-                           {[
-                              { name: "Dr. Ananya Sharma", spec: "General Physician", available: "Today, 4:00 PM" },
-                              { name: "Vaidya Rajesh Kumar", spec: "Ayurvedic Specialist", available: "Tomorrow, 10:00 AM" },
-                              { name: "Dr. Vikram Seth", spec: "Cardiologist", available: "Friday, 2:00 PM" }
-                           ].map((doc, i) => (
-                              <div key={i} className="glass-card p-8 flex items-center justify-between hover:border-sage/30 transition-all cursor-pointer group bg-white/70">
-                                 <div className="flex items-center gap-6">
-                                    <div className="w-16 h-16 rounded-full bg-sage/10 flex items-center justify-center text-sage font-black text-xl">
-                                       {doc.name.split(' ')[1][0]}
-                                    </div>
+                     <div className="flex-1 overflow-y-auto p-12 space-y-12">
+                        {appointments.length > 0 ? (
+                           <div className="grid grid-cols-1 md:grid-cols-2 gap-8">
+                              {appointments.map((app, i) => (
+                                 <div key={i} className="glass-card p-8 bg-white rounded-3xl shadow-xl flex justify-between items-center">
                                     <div>
-                                       <h4 className="font-outfit font-black text-lg text-authority uppercase leading-tight">{doc.name}</h4>
-                                       <p className="text-[10px] text-authority/40 uppercase font-black tracking-widest leading-none mt-1">{doc.spec}</p>
-                                       <p className="text-sage text-[10px] font-bold mt-4 uppercase tracking-[0.2em] bg-sage/5 px-3 py-1 rounded-full w-fit">Next: {doc.available}</p>
+                                       <h4 className="text-xl font-black uppercase text-authority">{app.doctor_name}</h4>
+                                       <p className="text-[10px] font-black uppercase text-authority/30 tracking-widest mt-1">{app.specialty}</p>
+                                       <div className="mt-6 inline-flex items-center gap-2 px-4 py-2 bg-teal/5 text-teal rounded-full text-[10px] font-black uppercase">
+                                          <Calendar className="w-3 h-3" /> {new Date(app.appointment_date).toLocaleString()}
+                                       </div>
+                                    </div>
+                                    <div className={`p-3 rounded-full ${app.status === 'scheduled' ? 'bg-teal/10 text-teal' : 'bg-authority/10 text-authority'}`}>
+                                       <ShieldCheck className="w-6 h-6" />
                                     </div>
                                  </div>
-                                 <button className="p-4 bg-authority text-cream rounded-xl group-hover:bg-sage transition-all shadow-lg group-hover:translate-x-1">
-                                    <ArrowRight className="w-5 h-5" />
-                                 </button>
-                              </div>
-                           ))}
-                        </div>
+                              ))}
+                           </div>
+                        ) : (
+                           <div className="h-full flex flex-col items-center justify-center text-center space-y-8 opacity-20 py-20">
+                              <Calendar className="w-24 h-24" />
+                              <p className="text-[12px] font-black uppercase tracking-[1em]">No Scheduled Appointments</p>
+                              <button 
+                                 className="px-10 py-5 bg-authority text-white rounded-full font-black text-[10px] uppercase tracking-[0.4em] opacity-100"
+                              >
+                                 Find Doctor
+                              </button>
+                           </div>
+                        )}
                      </div>
                   </motion.div>
                </motion.div>
@@ -376,45 +486,48 @@ export default function Dashboard() {
                   initial={{ opacity: 0 }}
                   animate={{ opacity: 1 }}
                   exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-authority/40 backdrop-blur-xl"
+                  className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-2xl"
                >
                   <motion.div
                      initial={{ opacity: 0, scale: 0.9, y: 50 }}
                      animate={{ opacity: 1, scale: 1, y: 0 }}
-                     exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                     className="glass-card max-w-4xl w-full h-[70vh] flex flex-col overflow-hidden shadow-2xl bg-cream border-white/50"
+                     className="glass-card max-w-4xl w-full h-[70vh] flex flex-col overflow-hidden shadow-3xl bg-cream border-white/50 rounded-[48px]"
                   >
-                     <div className="p-8 border-b border-authority/5 flex items-center justify-between bg-saffron/5">
+                     <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-saffron text-authority">
                         <div className="flex items-center gap-6">
                            <PranaLogo3 size={40} pulse={true} />
-                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter text-authority">{t.dashboard.reminders}</h2>
+                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter italic">Vitals Queue</h2>
                         </div>
-                        <button onClick={() => setActiveModule(null)} className="p-3 hover:bg-authority/10 rounded-full transition-colors bg-white/50">
-                           <X className="w-6 h-6 text-authority" />
+                        <button onClick={() => setActiveModule(null)} className="p-4 hover:bg-black/5 rounded-full transition-colors">
+                           <X className="w-6 h-6" />
                         </button>
                      </div>
-
-                     <div className="flex-1 overflow-y-auto p-12 space-y-8 bg-white/30">
-                        <div className="space-y-4">
-                           {[
-                              { name: "Metformin 500mg", time: "8:00 AM", status: "Taken" },
-                              { name: "Vitamin D3", time: "1:00 PM", status: "Upcoming" },
-                              { name: "Ashwagandha", time: "9:00 PM", status: "Upcoming" }
-                           ].map((med, i) => (
-                              <div key={i} className="flex items-center justify-between p-8 bg-white rounded-antigravity border border-authority/5 shadow-xl shadow-authority/5 group hover:border-saffron/20 transition-all">
-                                 <div className="flex items-center gap-6">
-                                    <div className={`w-3 h-3 rounded-full ${med.status === 'Taken' ? 'bg-sage' : 'bg-saffron animate-pulse'}`} />
-                                    <div>
-                                       <p className="font-black text-xl text-authority uppercase tracking-tighter leading-none mb-1">{med.name}</p>
-                                       <p className="text-[10px] text-authority/30 uppercase font-black tracking-widest">{med.time}</p>
+                     <div className="flex-1 overflow-y-auto p-12 space-y-8">
+                        {reminders.length > 0 ? (
+                           <div className="space-y-6">
+                              {reminders.map((rem, i) => (
+                                 <div key={i} className="flex items-center justify-between p-8 bg-white rounded-[32px] shadow-xl group hover:border-saffron/30 border border-transparent transition-all">
+                                    <div className="flex items-center gap-6">
+                                       <div className={`w-4 h-4 rounded-full ${rem.is_taken ? 'bg-teal' : 'bg-saffron animate-pulse'}`} />
+                                       <div>
+                                          <p className="text-2xl font-black uppercase text-authority tracking-tighter">{rem.medication_name}</p>
+                                          <p className="text-[10px] font-black uppercase text-authority/30 tracking-widest mt-1">{rem.time_of_day} • {rem.dosage}</p>
+                                       </div>
                                     </div>
+                                    <button 
+                                       className={`px-8 py-4 rounded-full text-[10px] font-black uppercase tracking-widest transition-all ${rem.is_taken ? 'bg-teal text-white' : 'border-2 border-authority/5 text-authority/20 hover:border-saffron hover:text-saffron'}`}
+                                    >
+                                       {rem.is_taken ? 'Taken' : 'Mark Taken'}
+                                    </button>
                                  </div>
-                                 <span className={`text-[10px] font-black uppercase tracking-[0.3em] p-2 px-6 rounded-full border-2 ${med.status === 'Taken' ? 'bg-sage/10 text-sage border-sage/20 shadow-lg shadow-sage/5' : 'bg-saffron/10 text-saffron border-saffron/20 shadow-lg shadow-saffron/5'}`}>
-                                    {med.status}
-                                 </span>
-                              </div>
-                           ))}
-                        </div>
+                              ))}
+                           </div>
+                        ) : (
+                           <div className="h-full flex flex-col items-center justify-center text-center space-y-8 opacity-20 py-20">
+                              <Clock className="w-24 h-24" />
+                              <p className="text-[12px] font-black uppercase tracking-[1em]">Queue Empty</p>
+                           </div>
+                        )}
                      </div>
                   </motion.div>
                </motion.div>
@@ -425,12 +538,6 @@ export default function Dashboard() {
                   isActive={isEmergency}
                   location={userLocation}
                   onClose={() => setIsEmergency(false)}
-               />
-            )}
-
-            {activeModule === "lens" && (
-               <ProductLens 
-                  onClose={() => setActiveModule(null)}
                />
             )}
          </AnimatePresence>

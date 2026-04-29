@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Upload, X, ShieldCheck, AlertCircle, Plus, Activity, TrendingUp } from 'lucide-react';
+import { FileText, Upload, X, ShieldCheck, AlertCircle, Plus, Activity, TrendingUp, Zap } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { supabase } from '@/utils/supabase';
 import { useUser } from '@/context/UserContext';
@@ -64,11 +64,8 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
       const content = data.content;
       setAnalysisResult(content);
 
-      // Attempt to parse and save to Supabase
-      // Simplified parser for common markers
       const lines = content.split('\n');
       for (const line of lines) {
-        // Look for common patterns like "Vitamin D: 24 ng/mL"
         const match = line.match(/(Vitamin D|HbA1c|B12|Cholesterol|Glucose)[:\s]+([\d.]+)\s*([%\w\/]+)/i);
         if (match) {
           const [_, name, value, unit] = match;
@@ -76,7 +73,7 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
             user_id: profile.id,
             marker_name: name.trim(),
             marker_value: value,
-            optimal_range: unit === '%' ? '4.0 - 5.6' : '30-100', // Mock optimal ranges
+            optimal_range: unit === '%' ? '4.0 - 5.6' : '30-100',
             vitality_score: parseInt(value) > 30 ? 90 : 40
           }]);
         }
@@ -97,95 +94,101 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-2xl"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-3xl"
     >
       <motion.div
-        initial={{ scale: 0.9, y: 20 }}
+        initial={{ scale: 0.9, y: 50 }}
         animate={{ scale: 1, y: 0 }}
-        className="glass-card max-w-5xl w-full h-[85vh] overflow-hidden flex flex-col bg-white border-white/50 shadow-3xl"
+        className="glass-card max-w-6xl w-full h-[85vh] overflow-hidden flex flex-col bg-cream border-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[48px]"
       >
         {/* Header */}
-        <div className="p-8 border-b border-authority/5 flex items-center justify-between bg-saffron text-authority">
-          <div className="flex items-center gap-6">
-            <div className="w-12 h-12 rounded-xl bg-white/20 flex items-center justify-center">
-              <FileText className="w-6 h-6" />
+        <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-saffron text-authority">
+          <div className="flex items-center gap-8">
+            <div className="w-16 h-16 rounded-[24px] bg-white/30 flex items-center justify-center">
+              <FileText className="w-8 h-8" />
             </div>
             <div>
-              <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter leading-none">Record Interpreter</h2>
-              <p className="text-[10px] font-bold uppercase tracking-[0.3em] opacity-40 mt-1">Sovereign Health Vault Active</p>
+               <div className="flex items-center gap-3 mb-1">
+                 <Activity className="w-3 h-3 text-authority fill-authority" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">BioMap_Protocol_v5</span>
+               </div>
+              <h2 className="text-4xl font-outfit font-black uppercase tracking-tighter leading-none italic">Report Interpreter</h2>
             </div>
           </div>
-          <button onClick={onClose} className="p-3 hover:bg-black/5 rounded-full transition-colors">
-            <X className="w-6 h-6" />
+          <button onClick={onClose} className="p-4 hover:bg-black/5 rounded-full transition-colors">
+            <X className="w-8 h-8" />
           </button>
         </div>
 
         <div className="flex-1 overflow-y-auto p-12">
           {!image ? (
-            <div className="h-full flex flex-col items-center justify-center space-y-12 py-20 border-4 border-dashed border-authority/5 rounded-[40px]">
-              <div className="w-32 h-32 rounded-full bg-saffron/5 flex items-center justify-center text-saffron/40">
-                <Plus className="w-16 h-16" />
+            <div className="h-full flex flex-col items-center justify-center space-y-12 py-20 border-4 border-dashed border-authority/5 rounded-[40px] bg-white/30">
+              <div className="w-40 h-40 rounded-full bg-saffron/5 flex items-center justify-center text-saffron/20">
+                <Plus className="w-20 h-20" />
               </div>
-              <div className="text-center space-y-4">
-                <h3 className="text-4xl font-outfit font-black text-authority tracking-tighter uppercase leading-none italic">Upload Lab Report</h3>
-                <p className="text-authority/40 font-medium max-w-sm mx-auto uppercase text-[10px] tracking-widest font-black">Supported: Blood Work, MRI, Clinical Notes</p>
+              <div className="text-center space-y-6">
+                <h3 className="text-5xl font-outfit font-black text-authority tracking-tighter uppercase leading-none italic">Extract Bio-Markers</h3>
+                <p className="text-authority/40 font-medium max-w-sm mx-auto uppercase text-[10px] tracking-[0.3em] font-black">Upload blood work, MRI, or clinical notes</p>
               </div>
               <button 
                 onClick={() => fileInputRef.current?.click()}
-                className="px-10 py-5 bg-authority text-cream rounded-antigravity font-black text-xs uppercase tracking-[0.4em] hover:bg-authority/90 transition-all flex items-center gap-3"
+                className="px-16 py-8 bg-authority text-white rounded-[32px] font-black text-xs uppercase tracking-[0.5em] hover:bg-teal transition-all flex items-center gap-4 shadow-3xl"
               >
-                <Upload className="w-4 h-4" /> Select File
+                <Upload className="w-5 h-5" /> Select Report
               </button>
               <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16">
-               <div className="space-y-8">
-                  <div className="aspect-[3/4] rounded-[40px] overflow-hidden border-8 border-white shadow-2xl bg-cream relative group">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 h-full">
+               <div className="space-y-10">
+                  <div className="aspect-[3/4] rounded-[48px] overflow-hidden border-[12px] border-white shadow-3xl bg-cream relative group">
                     <img src={image} className="w-full h-full object-cover" alt="Report" />
                     {isAnalyzing && (
                       <motion.div 
                         initial={{ top: "0%" }}
                         animate={{ top: "100%" }}
                         transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-x-0 h-2 bg-saffron shadow-[0_0_30px_#FFB800] z-10"
+                        className="absolute inset-x-0 h-2 bg-saffron shadow-[0_0_40px_#FFB800] z-10"
                       />
                     )}
                   </div>
                   {!analysisResult && !isAnalyzing && (
                     <button 
                       onClick={analyzeReport}
-                      className="w-full py-6 bg-saffron text-authority rounded-antigravity font-black text-xs uppercase tracking-[0.4em] hover:scale-[1.02] transition-all"
+                      className="w-full py-8 bg-saffron text-authority rounded-[32px] font-black text-xs uppercase tracking-[0.6em] hover:scale-[1.02] transition-all shadow-2xl"
                     >
                       Extract Biomarkers
                     </button>
                   )}
                </div>
 
-               <div className="space-y-10">
+               <div className="flex flex-col">
                   {isAnalyzing ? (
-                    <div className="h-full flex flex-col items-center justify-center space-y-8 py-20">
-                      <div className="w-20 h-20 rounded-full border-[6px] border-authority/5 border-t-saffron animate-spin" />
-                      <p className="text-[10px] font-black uppercase tracking-[0.5em] text-authority/30">Syncing with Bharat Intelligence Engine...</p>
+                    <div className="flex-1 flex flex-col items-center justify-center space-y-10 animate-pulse">
+                      <div className="w-24 h-24 rounded-full border-[8px] border-authority/5 border-t-saffron animate-spin" />
+                      <p className="text-[11px] font-black uppercase tracking-[0.6em] text-authority/20">Syncing with Bharat Engine...</p>
                     </div>
                   ) : analysisResult ? (
                     <motion.div 
-                      initial={{ opacity: 0, x: 20 }}
+                      initial={{ opacity: 0, x: 50 }}
                       animate={{ opacity: 1, x: 0 }}
                       className="space-y-12"
                     >
-                       <div className="p-8 bg-sage/5 rounded-[32px] border border-sage/20 flex items-center gap-6">
-                          <ShieldCheck className="w-10 h-10 text-sage" />
+                       <div className="p-8 bg-teal/5 rounded-[32px] border border-teal/10 flex items-center gap-6">
+                          <ShieldCheck className="w-12 h-12 text-teal" />
                           <div>
-                            <h4 className="text-xl font-outfit font-black text-authority leading-none">VITALITY SYNCED</h4>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-authority/40 mt-1">Biomarkers added to your Life-Map™</p>
+                            <h4 className="text-2xl font-outfit font-black text-authority leading-none">VITALITY SYNCED</h4>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-authority/40 mt-2">Markers added to your Life-Map™</p>
                           </div>
                        </div>
 
-                       <div className="space-y-6">
-                          <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-authority/30 pl-4 border-l-4 border-saffron">Clinical Interpretation</h3>
+                       <div className="space-y-8">
+                          <div className="flex items-center gap-4">
+                             <TrendingUp className="w-6 h-6 text-teal" />
+                             <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-authority/30">Clinical Interpretation</h3>
+                          </div>
                           <div className="prose prose-sm prose-authority max-w-none">
-                             <div className="text-authority/80 leading-relaxed font-medium whitespace-pre-wrap italic bg-cream/50 p-8 rounded-[32px]">
+                             <div className="text-authority/80 leading-relaxed font-medium whitespace-pre-wrap italic bg-white p-10 rounded-[40px] shadow-inner">
                                 {analysisResult}
                              </div>
                           </div>
@@ -193,15 +196,15 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
 
                        <button 
                          onClick={() => setImage(null)}
-                         className="w-full py-6 border-2 border-authority/5 text-authority/40 rounded-antigravity font-black text-[10px] uppercase tracking-[0.4em] hover:border-authority/20 transition-all"
+                         className="w-full py-6 border-2 border-authority/5 text-authority/20 rounded-[32px] font-black text-[10px] uppercase tracking-[0.5em] hover:text-authority transition-all"
                        >
-                         Upload Another Report
+                         Upload New Report
                        </button>
                     </motion.div>
                   ) : (
-                    <div className="h-full flex flex-col items-center justify-center text-center space-y-6 opacity-20">
-                       <TrendingUp className="w-16 h-16" />
-                       <p className="text-[10px] font-black uppercase tracking-[0.5em]">Awaiting Calibration</p>
+                    <div className="flex-1 flex flex-col items-center justify-center text-center p-20 border-4 border-dashed border-authority/5 rounded-[48px] opacity-10">
+                       <TrendingUp className="w-20 h-20 mb-8" />
+                       <p className="text-[12px] font-black uppercase tracking-[0.8em]">Awaiting Calibration</p>
                     </div>
                   )}
                </div>
