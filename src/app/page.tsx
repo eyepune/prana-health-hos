@@ -12,7 +12,8 @@ import {
   Lock,
   Sparkles,
   ChevronDown,
-  Wind
+  Wind,
+  Globe
 } from "lucide-react";
 import Link from "next/link";
 import PranaLogo3 from "@/components/PranaLogo3";
@@ -27,200 +28,158 @@ export default function LandingPage() {
   };
 
   return (
-    <div className="min-h-screen bg-[#FDFCFB] overflow-x-hidden selection:bg-primary/5 font-outfit">
+    <div className="min-h-screen bg-[#0A0A0B] overflow-x-hidden selection:bg-primary/20 font-outfit">
       
-      {/* 🌿 ORGANIC NAVIGATION */}
-      <nav className="fixed top-0 left-0 w-full z-[100] px-6 py-8">
-        <div className="max-w-7xl mx-auto glass-panel bg-white/40 backdrop-blur-3xl px-12 py-6 flex items-center justify-between border-white/80">
-          <Link href="/" className="flex items-center gap-4 group">
-            <PranaLogo3 size={32} pulse={true} color="#1E3932" />
-            <span className="font-playfair font-black text-2xl tracking-tighter text-primary">
-              Prana
+      {/* 🌑 EXECUTIVE NAVIGATION */}
+      <nav className="fixed top-0 left-0 w-full z-[100] px-8 py-10">
+        <div className="max-w-7xl mx-auto glass-panel bg-black/40 backdrop-blur-3xl px-12 py-6 flex items-center justify-between border-white/5 shadow-2xl">
+          <Link href="/" className="flex items-center gap-5 group">
+            <PranaLogo3 size={36} pulse={true} color="#00D1B2" />
+            <span className="font-playfair font-black text-3xl tracking-tighter text-white">
+              Prana<span className="text-primary italic">.</span>
             </span>
           </Link>
           
-          <div className="hidden lg:flex items-center gap-12 text-[11px] font-bold uppercase tracking-[0.2em] text-primary/40">
-            <Link href="/dashboard" className="hover:text-primary transition-colors">Consult</Link>
-            <Link href="/dashboard" className="hover:text-primary transition-colors">Lab Reports</Link>
-            <Link href="/dashboard" className="hover:text-primary transition-colors">Sovereignty</Link>
+          <div className="hidden lg:flex items-center gap-14 text-[10px] font-black uppercase tracking-[0.4em] text-white/30">
+            <Link href="/dashboard" className="hover:text-primary transition-all">Command_Center</Link>
+            <Link href="/dashboard" className="hover:text-primary transition-all">Bio_Sovereignty</Link>
+            <Link href="/dashboard" className="hover:text-primary transition-all">Clinical_Nodes</Link>
           </div>
 
           <div className="flex items-center gap-8">
              <LanguageSelector />
              <Link 
                href="/onboarding"
-               className="btn-primary px-10"
+               className="btn-primary py-4 px-10 text-[10px] tracking-[0.4em]"
              >
-               Start Journey
+               Initialize
              </Link>
           </div>
         </div>
       </nav>
 
-      {/* 🍵 THE CALM HERO */}
-      <section className="relative min-h-[90vh] flex items-center pt-32">
+      {/* 🚀 THE MIDNIGHT HERO */}
+      <section className="relative min-h-screen flex items-center pt-20">
         <div className="absolute inset-0 z-0">
-          <div className="absolute top-[10%] right-[10%] w-[600px] h-[600px] bg-primary/5 rounded-full blur-[120px] animate-pulse" />
-          <div className="absolute bottom-[20%] left-[5%] w-[400px] h-[400px] bg-accent/5 rounded-full blur-[100px]" />
+          <div className="absolute top-[10%] right-[10%] w-[800px] h-[800px] bg-primary/5 rounded-full blur-[150px] animate-pulse" />
+          <div className="absolute bottom-[20%] left-[5%] w-[500px] h-[500px] bg-secondary/5 rounded-full blur-[120px]" />
         </div>
         
-        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-20 items-center relative z-10">
-          <div className="lg:col-span-7 space-y-12">
+        <div className="max-w-7xl mx-auto px-8 grid grid-cols-1 lg:grid-cols-12 gap-24 items-center relative z-10">
+          <div className="lg:col-span-7 space-y-16">
             <motion.div
               initial={{ opacity: 0, x: -50 }}
               animate={{ opacity: 1, x: 0 }}
               transition={{ duration: 1.2 }}
-              className="space-y-10"
+              className="space-y-12"
             >
-              <div className="inline-flex items-center gap-3 px-6 py-2 bg-primary/5 border border-primary/10 rounded-full text-primary/60">
-                <Wind className="w-4 h-4" />
-                <span className="text-[10px] font-black uppercase tracking-[0.3em]">Pure Clinical Intelligence</span>
+              <div className="inline-flex items-center gap-4 px-6 py-2 bg-white/5 border border-white/10 rounded-full text-primary">
+                <Sparkles className="w-4 h-4" />
+                <span className="text-[10px] font-black uppercase tracking-[0.5em]">Bharat Clinical Engine v7.0</span>
               </div>
               
-              <h1 className="text-8xl md:text-[9rem] font-playfair font-black text-primary tracking-tighter leading-[0.9]">
-                Live in <br /> <span className="italic text-primary/40 font-normal">Harmony.</span>
+              <h1 className="text-8xl md:text-[10rem] font-playfair font-black text-white tracking-tighter leading-[0.8] uppercase">
+                Sovereign <br /> <span className="italic text-primary">Wellness.</span>
               </h1>
               
-              <p className="text-2xl text-primary/50 font-medium leading-relaxed max-w-2xl font-outfit">
-                Prana transforms complex medical data into calm, structured insights. A sovereign health OS built for the modern human.
+              <p className="text-2xl text-white/30 font-medium leading-relaxed max-w-2xl font-outfit">
+                The world’s first high-performance Health Operating System. <br />
+                <span className="text-white/60">Clinical precision meets biological harmony.</span>
               </p>
             </motion.div>
             
-            <div className="flex flex-col sm:row gap-6 pt-6">
+            <div className="flex flex-col sm:flex-row gap-8 pt-8">
               <Link 
                 href="/onboarding"
-                className="btn-primary py-8 px-16 text-sm shadow-2xl"
+                className="btn-primary py-10 px-16 text-xs shadow-[0_20px_50px_-10px_rgba(0,209,178,0.3)]"
               >
-                Launch Dashboard <ArrowRight className="w-5 h-5 ml-2" />
+                Launch Intelligence <ArrowRight className="w-5 h-5 ml-2" />
               </Link>
-              <button className="btn-secondary py-8 px-16 text-sm">
-                How it Works
+              <button className="btn-secondary py-10 px-16 text-xs">
+                Protocol Whitepaper
               </button>
             </div>
           </div>
 
           <div className="lg:col-span-5 relative flex justify-center items-center">
-             <div className="relative animate-float">
-                <div className="w-[450px] h-[450px] rounded-full bg-gradient-to-br from-white to-primary/5 shadow-inner border border-white/50 flex items-center justify-center">
-                  <PranaLogo3 size={280} pulse={true} color="#1E3932" />
-                </div>
-                {/* Floating Micro-Cards */}
-                <motion.div
-                  animate={{ y: [0, -15, 0] }}
-                  transition={{ duration: 5, repeat: Infinity }}
-                  className="absolute -top-10 -right-10 glass-panel p-8 bg-white/90 border-white"
-                >
-                  <Activity className="w-6 h-6 text-accent mb-3" />
-                  <p className="text-[9px] font-black uppercase tracking-widest text-primary/30">Vitality_Sync</p>
-                  <p className="text-2xl font-playfair font-black text-primary">High</p>
-                </motion.div>
+             <div className="relative">
+                {/* Orbital Rings (Sample 1 influence) */}
+                <div className="absolute inset-0 -m-20 border border-white/5 rounded-full animate-spin-slow opacity-20" />
+                <div className="absolute inset-0 -m-40 border border-primary/10 rounded-full animate-reverse-spin-slow opacity-10" />
                 
+                <div className="relative z-10 drop-shadow-[0_0_80px_rgba(0,209,178,0.2)]">
+                  <PranaLogo3 size={380} pulse={true} color="#00D1B2" />
+                </div>
+                
+                {/* Executive Micro-Stats (Sample 2 influence) */}
                 <motion.div
-                  animate={{ y: [0, 20, 0] }}
-                  transition={{ duration: 6, repeat: Infinity }}
-                  className="absolute -bottom-10 -left-10 glass-panel p-8 bg-white/90 border-white"
+                  animate={{ y: [0, -20, 0] }}
+                  transition={{ duration: 4, repeat: Infinity }}
+                  className="absolute -top-12 -right-12 glass-panel p-10 bg-black/60 border-white/10"
                 >
-                  <ShieldCheck className="w-6 h-6 text-primary mb-3" />
-                  <p className="text-[9px] font-black uppercase tracking-widest text-primary/30">Data_Sovereign</p>
-                  <p className="text-2xl font-playfair font-black text-primary">100%</p>
+                  <Activity className="w-6 h-6 text-primary mb-4" />
+                  <p className="text-[9px] font-black uppercase tracking-widest text-white/20">Sync_Status</p>
+                  <p className="text-3xl font-playfair font-black text-white uppercase italic">Optimal</p>
                 </motion.div>
              </div>
           </div>
         </div>
       </section>
 
-      {/* 🍃 THE ZEN GRID */}
+      {/* 🔳 THE INTELLIGENCE GRID */}
       <section className="py-60 px-8 max-w-7xl mx-auto">
-        <div className="text-center mb-32 space-y-6">
-           <h2 className="text-5xl font-playfair font-black text-primary uppercase tracking-tighter italic">Clinical Clarity.</h2>
-           <p className="text-primary/40 font-medium uppercase tracking-[0.4em] text-[10px]">The Three Pillars of Prana</p>
+        <div className="text-center mb-40 space-y-8">
+           <h2 className="text-6xl font-playfair font-black text-white uppercase tracking-tighter italic">Clinical Nodes.</h2>
+           <p className="text-primary font-black uppercase tracking-[0.8em] text-[10px]">High-Performance Health Mapping</p>
         </div>
         
-        <div className="grid grid-cols-1 md:grid-cols-3 gap-12">
+        <div className="grid grid-cols-1 md:grid-cols-3 gap-10">
           {[
-            { icon: Cpu, title: "Analyst", desc: "Understand symptoms through structured clinical logic, not confusing search results.", color: "primary" },
-            { icon: Scan, title: "Lens", desc: "Instantly scan lab reports and grocery labels to reveal what’s truly inside.", color: "accent" },
-            { icon: Lock, title: "Vault", desc: "Your health records are encrypted and stored within your personal sovereign node.", color: "primary" }
+            { icon: Cpu, title: "Analyst", desc: "Neural clinical triage powered by Llama 3.1. Zero-latency diagnostic logic.", color: "primary" },
+            { icon: Scan, title: "Scanner", desc: "Advanced vision extraction for lab reports and clinical pharmacy labels.", color: "primary" },
+            { icon: Lock, title: "Sovereign", desc: "Private biometric nodes encrypted at the biological edge. No cloud compromise.", color: "primary" }
           ].map((f, i) => (
             <motion.div 
               key={i}
               {...fadeIn}
               transition={{ delay: i * 0.2 }}
-              className="stats-card p-16 bg-white/40 border-white/50"
+              className="stats-card p-16 bg-white/[0.01] border-white/5"
             >
-              <div className="w-20 h-20 rounded-3xl bg-primary/5 flex items-center justify-center mb-12 text-primary group-hover:bg-primary group-hover:text-white transition-all duration-500">
+              <div className="w-20 h-20 rounded-3xl bg-primary/10 text-primary flex items-center justify-center mb-14 group-hover:bg-primary group-hover:text-black transition-all duration-700 shadow-[0_0_20px_rgba(0,209,178,0.1)]">
                 <f.icon className="w-10 h-10" />
               </div>
-              <h3 className="text-4xl font-playfair font-black text-primary tracking-tighter mb-6">{f.title}</h3>
-              <p className="text-primary/50 leading-relaxed font-medium text-lg font-outfit">{f.desc}</p>
+              <h3 className="text-4xl font-playfair font-black text-white tracking-tighter mb-8 uppercase italic">{f.title}</h3>
+              <p className="text-white/30 leading-relaxed font-medium text-lg font-outfit">{f.desc}</p>
             </motion.div>
           ))}
         </div>
       </section>
 
-      {/* 🏛️ SOVEREIGN HERITAGE */}
-      <section className="py-40 bg-primary/[0.02] border-y border-black/[0.02]">
-        <div className="max-w-7xl mx-auto px-8 flex flex-col md:flex-row items-center justify-between gap-32">
-          <div className="space-y-10">
-            <h2 className="text-7xl font-playfair font-black text-primary tracking-tighter italic leading-none">
-              Sovereign <br /> <span className="text-primary/30">Heritage.</span>
-            </h2>
-            <p className="text-xl text-primary/50 max-w-md font-outfit leading-relaxed">
-              Prana combines ancient wellness intuition with cutting-edge Bharat medical protocols. A health system that respects your roots.
-            </p>
-            <div className="flex items-center gap-6">
-               <div className="w-12 h-12 rounded-full border border-primary/20 flex items-center justify-center text-primary font-bold">✓</div>
-               <span className="text-[10px] font-black uppercase tracking-[0.3em] text-primary/40">Verified by Prana Protocols</span>
-            </div>
-          </div>
-          <div className="flex-1 w-full glass-panel p-16 bg-white/60">
-             <div className="space-y-12">
-                {[1, 2, 3].map((i) => (
-                   <div key={i} className="flex items-center justify-between border-b border-black/5 pb-8 last:border-0">
-                      <div className="flex items-center gap-6">
-                        <div className="w-12 h-12 rounded-2xl bg-primary/5 flex items-center justify-center text-primary">
-                          <Activity className="w-6 h-6" />
-                        </div>
-                        <div>
-                          <p className="text-lg font-bold text-primary uppercase tracking-tighter">Biomarker_{i * 4}2</p>
-                          <p className="text-[9px] font-black text-primary/20 uppercase tracking-widest mt-1">Status: Optimal</p>
-                        </div>
-                      </div>
-                      <div className="text-right">
-                        <p className="text-2xl font-playfair font-black text-primary">{80 + i * 5}%</p>
-                      </div>
-                   </div>
-                ))}
-             </div>
-          </div>
-        </div>
-      </section>
-
-      {/* 🌿 FINAL JOURNEY */}
-      <section className="py-80 px-8 text-center relative overflow-hidden">
-        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[800px] h-[800px] bg-primary/[0.02] rounded-full blur-[150px] -z-10" />
-        <motion.div {...fadeIn} className="max-w-5xl mx-auto space-y-24">
-           <h2 className="text-8xl md:text-[11rem] font-playfair font-black text-primary tracking-tighter leading-[0.8] italic">
-              Your <br /> Vitality <br /> <span className="text-primary/20">Unlocked.</span>
+      {/* 🚀 FINAL INITIALIZATION */}
+      <section className="py-80 px-8 text-center relative">
+        <div className="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2 w-[1000px] h-[1000px] bg-primary/[0.03] rounded-full blur-[200px] -z-10" />
+        <motion.div {...fadeIn} className="max-w-5xl mx-auto space-y-32">
+           <h2 className="text-8xl md:text-[13rem] font-playfair font-black text-white tracking-tighter leading-[0.7] uppercase italic">
+              Your <br /> Code <br /> <span className="text-primary italic underline decoration-white/10 underline-offset-[30px]">Vitality.</span>
            </h2>
            <Link 
               href="/onboarding"
-              className="btn-primary inline-flex py-10 px-24 text-lg"
+              className="btn-primary inline-flex py-12 px-28 text-sm"
            >
-              Begin Initialization
+              Initialize hOS 7.0
            </Link>
-           <div className="pt-40 opacity-20 flex flex-col items-center gap-8">
-              <PranaLogo3 size={64} pulse={false} color="#1E3932" />
-              <p className="text-[11px] font-black uppercase tracking-[0.6em] text-primary">Bharat Health OS v6.5</p>
+           <div className="pt-40 opacity-10 flex flex-col items-center gap-10 grayscale">
+              <PranaLogo3 size={80} pulse={false} color="#FFF" />
+              <p className="text-[11px] font-black uppercase tracking-[1em] text-white">Bharat Sovereign Intelligence</p>
            </div>
         </motion.div>
       </section>
 
-      <footer className="py-24 px-8 border-t border-black/5 bg-white">
-        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-12 text-[10px] font-black uppercase tracking-[0.4em] text-primary/20">
-          <div className="flex gap-16">
-            <Link href="#" className="hover:text-primary transition-colors">Clinical Protocol</Link>
-            <Link href="#" className="hover:text-primary transition-colors">Privacy Sovereignty</Link>
+      <footer className="py-24 px-8 border-t border-white/5 bg-black">
+        <div className="max-w-7xl mx-auto flex flex-col md:flex-row justify-between items-center gap-16 text-[10px] font-black uppercase tracking-[0.5em] text-white/10">
+          <div className="flex gap-20">
+            <Link href="#" className="hover:text-primary transition-all">Clinical_Disclosure</Link>
+            <Link href="#" className="hover:text-primary transition-all">Data_Sovereignty</Link>
           </div>
           <div>© 2026 Bharat Health Intelligence. Designed by EyE PunE.</div>
         </div>

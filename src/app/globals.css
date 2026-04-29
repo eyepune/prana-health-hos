@@ -3,66 +3,67 @@
 @tailwind utilities;
 
 :root {
-  --background: #FDFCFB; /* Bone White */
-  --foreground: #1A1A1A; /* Charcoal */
-  --primary: #1E3932; /* Deep Forest Green (Luxury) */
-  --secondary: #D2B48C; /* Tan/Sand */
-  --accent: #D27C5C; /* Terra-cotta (Warmth) */
-  --card: rgba(255, 255, 255, 0.8);
-  --border: rgba(0, 0, 0, 0.05);
-  --radius: 40px;
+  --background: #0A0A0B; /* Midnight */
+  --foreground: #F5F5F7; /* Apple White */
+  --primary: #00D1B2; /* Clinical Teal (Hybrid) */
+  --secondary: #D4AF37; /* Luxury Gold */
+  --accent: #FF5A5F; /* Emergency Red */
+  --card: rgba(28, 28, 30, 0.6);
+  --border: rgba(255, 255, 255, 0.06);
+  --radius: 36px;
 }
 
 @layer base {
   body {
-    @apply bg-[var(--background)] text-[var(--foreground)] font-outfit antialiased selection:bg-primary/10;
+    @apply bg-[var(--background)] text-[var(--foreground)] font-outfit antialiased selection:bg-primary/20;
     background-image: 
-      radial-gradient(circle at 100% 0%, rgba(30, 57, 50, 0.03) 0%, transparent 40%),
-      radial-gradient(circle at 0% 100%, rgba(210, 124, 92, 0.03) 0%, transparent 40%);
+      radial-gradient(circle at 100% 0%, rgba(0, 209, 178, 0.05) 0%, transparent 50%),
+      radial-gradient(circle at 0% 100%, rgba(212, 175, 55, 0.03) 0%, transparent 50%);
+    background-attachment: fixed;
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-card backdrop-blur-2xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_20px_80px_-20px_rgba(0,0,0,0.05)];
+    @apply bg-card backdrop-blur-3xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)];
   }
 
   .neo-button {
-    @apply px-10 py-5 rounded-[24px] font-bold text-sm tracking-tight transition-all duration-500 flex items-center justify-center gap-3 active:scale-95;
+    @apply px-10 py-5 rounded-2xl font-bold text-[11px] uppercase tracking-[0.3em] transition-all duration-500 flex items-center justify-center gap-3 active:scale-95;
   }
 
   .btn-primary {
-    @apply neo-button bg-[var(--primary)] text-white hover:shadow-[0_20px_40px_-10px_rgba(30,57,50,0.3)] hover:-translate-y-1;
+    @apply neo-button bg-[var(--primary)] text-black hover:shadow-[0_0_40px_rgba(0,209,178,0.3)] hover:-translate-y-1;
   }
 
   .btn-secondary {
-    @apply neo-button bg-white border border-black/5 text-black hover:bg-black/[0.02];
+    @apply neo-button bg-white/5 border border-white/10 text-white hover:bg-white/10;
   }
 
   .stats-card {
-    @apply glass-panel p-10 flex flex-col gap-6 hover:translate-y-[-8px] transition-all duration-700 group cursor-pointer;
+    @apply glass-panel p-10 flex flex-col gap-8 hover:border-primary/20 hover:bg-white/[0.02] transition-all duration-700 group cursor-pointer;
   }
 
   .input-field {
-    @apply w-full bg-black/[0.02] border border-black/5 rounded-3xl px-8 py-6 text-lg outline-none focus:bg-white focus:border-primary/20 transition-all placeholder:text-black/20;
+    @apply w-full bg-white/5 border border-white/5 rounded-2xl px-10 py-7 text-lg outline-none focus:bg-white/10 focus:border-primary/30 transition-all placeholder:text-white/10;
   }
 }
 
-/* 🌿 ORGANIC ANIMATIONS */
-@keyframes float-soft {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-15px); }
-  100% { transform: translateY(0px); }
+/* 🌀 HYBRID ANIMATIONS */
+@keyframes glow-pulse {
+  0% { box-shadow: 0 0 20px rgba(0, 209, 178, 0.1); }
+  50% { box-shadow: 0 0 40px rgba(0, 209, 178, 0.3); }
+  100% { box-shadow: 0 0 20px rgba(0, 209, 178, 0.1); }
 }
 
-.animate-float {
-  animation: float-soft 8s infinite ease-in-out;
+.animate-glow {
+  animation: glow-pulse 4s infinite ease-in-out;
 }
 
 /* CUSTOM SCROLLBAR */
 ::-webkit-scrollbar {
-  width: 5px;
+  width: 4px;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-black/5 rounded-full hover:bg-primary/20 transition-all;
+  @apply bg-white/10 rounded-full hover:bg-primary/40 transition-all;
 }
