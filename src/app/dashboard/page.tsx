@@ -31,6 +31,7 @@ import PranaLogo3 from "@/components/PranaLogo3";
 import EmergencyGlow from "@/components/EmergencyGlow";
 import ProductLens from "@/components/ProductLens";
 import HealthRecordsModal from "@/components/HealthRecordsModal";
+import LanguageSelector from "@/components/LanguageSelector";
 import { useUser } from "@/context/UserContext";
 import { supabase } from "@/utils/supabase";
 
@@ -43,6 +44,7 @@ export default function Dashboard() {
    const [isIncognito, setIsIncognito] = useState(false);
    const [userLocation, setUserLocation] = useState("LOCATING...");
    const [inputValue, setInputValue] = useState("");
+   const [isSpeaking, setIsSpeaking] = useState(false);
    const [messages, setMessages] = useState([
       { role: "assistant", content: t.dashboard.consult_welcome }
    ] as { role: string; content: string }[]);
@@ -126,7 +128,8 @@ export default function Dashboard() {
             body: JSON.stringify({
                messages: [...messages, userMessage],
                type: "text",
-               profile: profile
+               profile: profile,
+               lang: lang === 'HI' ? 'Hindi' : lang === 'TE' ? 'Telugu' : lang === 'TA' ? 'Tamil' : lang === 'ES' ? 'Spanish' : lang === 'AR' ? 'Arabic' : 'English'
             })
          });
 
@@ -142,6 +145,48 @@ export default function Dashboard() {
       } finally {
          setIsLoading(false);
       }
+   };
+
+   const toggleListening = () => {
+      const SpeechRecognition = (window as any).SpeechRecognition || (window as any).webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+         alert("Speech recognition not supported in this browser.");
+         return;
+      }
+
+      if (isListening) {
+         setIsListening(false);
+         return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = lang === 'HI' ? 'hi-IN' : 'en-IN';
+      recognition.continuous = false;
+      recognition.interimResults = false;
+
+      recognition.onstart = () => setIsListening(true);
+      recognition.onend = () => setIsListening(false);
+      recognition.onresult = (event: any) => {
+         const transcript = event.results[0][0].transcript;
+         setInputValue(transcript);
+         setIsListening(false);
+      };
+
+      recognition.start();
+   };
+
+   const speakContent = (text: string) => {
+      if (isSpeaking) {
+         window.speechSynthesis.cancel();
+         setIsSpeaking(false);
+         return;
+      }
+
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = lang === 'HI' ? 'hi-IN' : 'en-IN';
+      utterance.onend = () => setIsSpeaking(false);
+      setIsSpeaking(true);
+      window.speechSynthesis.speak(utterance);
    };
 
    useEffect(() => {
@@ -186,6 +231,7 @@ export default function Dashboard() {
                      <span className="text-[10px] font-bold text-authority uppercase tracking-widest">Bharat_Mainnet</span>
                   </div>
                </div>
+               <LanguageSelector />
                <button className="p-4 glass-card bg-white rounded-full hover:scale-110 transition-all text-authority/40 hover:text-teal">
                   <Bell className="w-6 h-6" />
                </button>
@@ -369,9 +415,17 @@ export default function Dashboard() {
                      <div className="flex-1 overflow-y-auto p-12 space-y-10">
                         {messages.map((msg, i) => (
                            <div key={i} className={`flex ${msg.role === 'user' ? 'justify-end' : 'justify-start'}`}>
-                              <div className={`p-8 rounded-[32px] max-w-[80%] text-base leading-relaxed shadow-xl ${msg.role === 'user' ? 'bg-authority text-white rounded-tr-none' : 'bg-white text-authority/80 rounded-tl-none italic'
+                              <div className={`p-8 rounded-[32px] max-w-[80%] text-base leading-relaxed shadow-xl relative group ${msg.role === 'user' ? 'bg-authority text-white rounded-tr-none' : 'bg-white text-authority/80 rounded-tl-none italic'
                                  }`}>
                                  {msg.content}
+                                 {msg.role === 'assistant' && (
+                                    <button 
+                                       onClick={() => speakContent(msg.content)}
+                                       className="absolute -right-12 top-0 p-3 bg-white text-teal rounded-full shadow-lg opacity-0 group-hover:opacity-100 transition-opacity"
+                                    >
+                                       {isSpeaking ? <ShieldOff className="w-4 h-4" /> : <Activity className="w-4 h-4" />}
+                                    </button>
+                                 )}
                               </div>
                            </div>
                         ))}
@@ -391,12 +445,18 @@ export default function Dashboard() {
                            <div className="flex-1 relative">
                               <input
                                  type="text"
-                                 placeholder={isListening ? "Listening..." : "Describe Symptom or Query..."}
+                                 placeholder={isListening ? "Listening (Bharat Voice Engine)..." : "Describe Symptom or Query..."}
                                  value={inputValue}
                                  onChange={(e) => setInputValue(e.target.value)}
                                  onKeyDown={(e) => e.key === 'Enter' && handleSendMessage()}
-                                 className="w-full bg-cream rounded-full px-10 py-7 text-lg font-medium border-2 border-transparent focus:border-teal outline-none transition-all shadow-inner"
+                                 className={`w-full bg-cream rounded-full px-10 py-7 text-lg font-medium border-2 transition-all shadow-inner outline-none ${isListening ? 'border-teal ring-4 ring-teal/5' : 'border-transparent focus:border-teal'}`}
                               />
+                              <button 
+                                 onClick={toggleListening}
+                                 className={`absolute right-6 top-1/2 -translate-y-1/2 p-3 rounded-full transition-all ${isListening ? 'bg-teal text-white animate-pulse' : 'bg-authority/5 text-authority/40 hover:bg-authority/10'}`}
+                              >
+                                 <Activity className="w-6 h-6" />
+                              </button>
                            </div>
                            <button
                               onClick={handleSendMessage}

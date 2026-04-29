@@ -4,7 +4,7 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
 import translations from '../data/translations.json';
 
-type Language = "EN" | "HI";
+type Language = "EN" | "HI" | "TE" | "TA" | "MR" | "BN" | "ES" | "AR" | "FR";
 
 interface LanguageContextType {
   lang: Language;

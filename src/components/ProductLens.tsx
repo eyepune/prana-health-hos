@@ -10,7 +10,7 @@ interface ProductLensProps {
 }
 
 export default function ProductLens({ onClose }: ProductLensProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const [image, setImage] = useState<string | null>(null);
   const [isScanning, setIsScanning] = useState(false);
   const [result, setResult] = useState<any>(null);
@@ -50,7 +50,8 @@ export default function ProductLens({ onClose }: ProductLensProps) {
               ]
             }
           ],
-          profile: { name: "Resident", sex: "Unknown", age: "Unknown" }
+          profile: { name: "Resident", sex: "Unknown", age: "Unknown" },
+          lang: lang === 'HI' ? 'Hindi' : lang === 'TE' ? 'Telugu' : lang === 'TA' ? 'Tamil' : lang === 'ES' ? 'Spanish' : lang === 'AR' ? 'Arabic' : 'English'
         })
       });
 

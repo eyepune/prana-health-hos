@@ -176,5 +176,37 @@
       "clinical_interpretation": "भारत व्याख्या",
       "interpretation_text": "आपका ग्लूकोज स्तर भारतीय नैदानिक औसत के अनुरूप है। सुझाव: परिष्कृत तेलों का सेवन कम करें (4-स्तंभ आहार)।"
     }
+  },
+  "TE": {
+    "nav": { "reports": "రిపోర్ట్స్", "symptoms": "లక్షణాలు", "scanner": "స్కానర్", "get_started": "ప్రారంభించండి" },
+    "dashboard": {
+      "greeting": "నమస్తే, ప్రాణ పయనీర్",
+      "subtitle": "భారత్ క్లినికల్ స్టేటస్: సార్వభౌమ",
+      "consult_welcome": "నమస్తే. నేను ప్రాణ భారత్ ఇంజిన్. నేను భారతీయ ఆహార విజ్ఞానంతో క్లినికల్ అల్లోపతిని మిళితం చేస్తాను. మీ లక్షణాలను వివరించండి."
+    }
+  },
+  "TA": {
+    "nav": { "reports": "அறிக்கைகள்", "symptoms": "அறிகுறிகள்", "scanner": "ஸ்கேனர்", "get_started": "தொடங்கு" },
+    "dashboard": {
+      "greeting": "வணக்கம், பிராணா முன்னோடி",
+      "subtitle": "பாரత్ క్లినికల్ நிலை: இறையாண்மை",
+      "consult_welcome": "வணக்கம். நான் பிராணா பாரత్ எஞ்சின். இந்திய உணவு ஞானத்துடன் மருத்துவ அலோபதியை இணைக்கிறேன். உங்கள் அறிகுறிகளை விவரிக்கவும்."
+    }
+  },
+  "ES": {
+    "nav": { "reports": "Informes", "symptoms": "Síntomas", "scanner": "Escáner", "get_started": "Empezar" },
+    "dashboard": {
+      "greeting": "Hola, Pionero de Prana",
+      "subtitle": "Estado Clínico: Soberano",
+      "consult_welcome": "Hola. Soy el motor Prana. Combino la medicina clínica con la sabiduría dietética. Describe tus síntomas."
+    }
+  },
+  "AR": {
+    "nav": { "reports": "تقارير", "symptoms": "أعراض", "scanner": "ماسح ضوئي", "get_started": "ابدأ" },
+    "dashboard": {
+      "greeting": "مرحباً، رائد برانا",
+      "subtitle": "الحالة السريرية: سيادية",
+      "consult_welcome": "مرحباً. أنا محرك برانا. أجمع بين الطب السريري والحكمة الغذائية. صف أعراضك."
+    }
   }
 }

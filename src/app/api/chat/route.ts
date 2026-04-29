@@ -20,7 +20,7 @@ You are the Prana Health Intelligence Engine (hOS). Provide "Clinical yet Human"
 
 export async function POST(req: NextRequest) {
   try {
-    const { messages, type, profile } = await req.json();
+    const { messages, type, profile, lang } = await req.json();
 
     const modelSlug = (type === 'image' || type === 'vision') 
       ? "meta-llama/Llama-3.2-11B-Vision-Instruct" 
@@ -28,8 +28,12 @@ export async function POST(req: NextRequest) {
 
     const model = sdk.model(modelSlug);
 
-    // Build the system message with user profile context
-    const fullPrompt = `${MASTER_GENESIS_PROMPT} \n USER PROFILE CONTEXT: ${JSON.stringify(profile)} \n\n CURRENT CONVERSATION:`;
+    // Build the system message with user profile context and language requirement
+    const fullPrompt = `${MASTER_GENESIS_PROMPT} 
+    USER PROFILE CONTEXT: ${JSON.stringify(profile)} 
+    OUTPUT REQUIREMENT: Respond ONLY in the ${lang || 'English'} language.
+    
+    CURRENT CONVERSATION:`;
 
     const { error, output } = await model.run([
       { role: "system", content: fullPrompt },

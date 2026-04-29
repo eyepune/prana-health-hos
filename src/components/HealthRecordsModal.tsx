@@ -13,7 +13,7 @@ interface HealthRecordsModalProps {
 }
 
 export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRecordsModalProps) {
-  const { t } = useLanguage();
+  const { t, lang } = useLanguage();
   const { profile } = useUser();
   const [image, setImage] = useState<string | null>(null);
   const [isAnalyzing, setIsAnalyzing] = useState(false);
@@ -54,7 +54,8 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
               ]
             }
           ],
-          profile: profile
+          profile: profile,
+          lang: lang === 'HI' ? 'Hindi' : lang === 'TE' ? 'Telugu' : lang === 'TA' ? 'Tamil' : lang === 'ES' ? 'Spanish' : lang === 'AR' ? 'Arabic' : 'English'
         })
       });
 

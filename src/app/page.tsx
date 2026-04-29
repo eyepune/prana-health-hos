@@ -17,6 +17,7 @@ import {
 import Link from "next/link";
 import { useLanguage } from "@/context/LanguageContext";
 import PranaLogo3 from "@/components/PranaLogo3";
+import LanguageSelector from "@/components/LanguageSelector";
 
 export default function LandingPage() {
   const { lang, setLang, t } = useLanguage();
@@ -50,13 +51,7 @@ export default function LandingPage() {
           </div>
 
           <div className="flex items-center gap-8">
-             <button 
-               onClick={() => setLang(lang === 'EN' ? 'HI' : 'EN')}
-               className="flex items-center gap-2 px-5 py-2.5 rounded-full transition-all border border-authority/5 hover:bg-authority/5"
-             >
-               <Globe className="w-4 h-4 text-authority/30" />
-               <span className="text-[10px] font-bold text-authority uppercase tracking-widest">{lang}</span>
-             </button>
+             <LanguageSelector />
 
              <Link 
                href="/onboarding"
