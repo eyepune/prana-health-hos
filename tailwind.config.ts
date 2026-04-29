@@ -12,6 +12,7 @@ module.exports = {
         secondary: "#D4AF37",
         accent: "#FF5A5F",
         midnight: "#0A0A0B",
+        card: "rgba(28, 28, 30, 0.6)",
       },
       fontFamily: {
         sans: ["var(--font-inter)"],
