@@ -71,28 +71,28 @@ export default function ProductLens({ onClose }: ProductLensProps) {
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-3xl"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-black/80 backdrop-blur-3xl"
     >
       <motion.div
         initial={{ scale: 0.9, y: 50 }}
         animate={{ scale: 1, y: 0 }}
-        className="glass-card max-w-6xl w-full h-[85vh] overflow-hidden flex flex-col bg-cream border-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[48px]"
+        className="glass-panel max-w-6xl w-full h-[85vh] overflow-hidden flex flex-col bg-[#0a0a0a]"
       >
         {/* Header */}
-        <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-authority text-white">
+        <div className="p-10 border-b border-white/5 flex items-center justify-between bg-primary text-black">
           <div className="flex items-center gap-8">
-            <div className="w-16 h-16 rounded-[24px] bg-white/10 flex items-center justify-center">
-              <Scan className="w-8 h-8 text-saffron animate-pulse" />
+            <div className="w-16 h-16 rounded-[24px] bg-black/10 flex items-center justify-center">
+              <Scan className="w-8 h-8 text-black animate-pulse" />
             </div>
             <div>
                <div className="flex items-center gap-3 mb-1">
-                 <Zap className="w-3 h-3 text-saffron fill-saffron" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Guardian_Protocol_v2</span>
+                 <Zap className="w-3 h-3 text-black fill-black" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">Guardian_Protocol_v6.1</span>
                </div>
-              <h2 className="text-4xl font-outfit font-black uppercase tracking-tighter leading-none italic">Product Lens</h2>
+              <h2 className="text-4xl font-black uppercase tracking-tighter leading-none italic">Product Lens</h2>
             </div>
           </div>
-          <button onClick={onClose} className="p-4 hover:bg-white/10 rounded-full transition-colors">
+          <button onClick={onClose} className="p-4 hover:bg-black/10 rounded-full transition-colors">
             <X className="w-8 h-8" />
           </button>
         </div>

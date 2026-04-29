@@ -3,69 +3,84 @@
 @tailwind utilities;
 
 :root {
-  --authority: #1A1D1E;
-  --sage: #2A7E74;
-  --teal: #0D6E5E;
-  --saffron: #FFB800;
-  --cream: #F8F9F8;
-  --gold: #D4AF37;
+  --background: #050505;
+  --foreground: #FFFFFF;
+  --primary: #00FF85; /* Bio-Green */
+  --secondary: #8B5CF6; /* Intel-Lavender */
+  --accent: #FFB800; /* Prana-Gold */
+  --card: rgba(20, 20, 20, 0.6);
+  --border: rgba(255, 255, 255, 0.08);
+  --radius: 32px;
 }
 
 @layer base {
   body {
-    @apply bg-cream text-authority selection:bg-teal/10;
-    font-feature-settings: "ss01", "ss02", "cv01", "cv02";
+    @apply bg-[var(--background)] text-[var(--foreground)] font-outfit antialiased selection:bg-primary/20;
+    background-image: 
+      radial-gradient(circle at 0% 0%, rgba(0, 255, 133, 0.05) 0%, transparent 40%),
+      radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
+    background-attachment: fixed;
   }
 }
 
 @layer components {
-  .glass-card {
-    @apply bg-white/70 backdrop-blur-2xl border border-white/50 shadow-[0_8px_32px_0_rgba(31,38,135,0.07)];
+  .glass-panel {
+    @apply bg-card backdrop-blur-3xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)];
   }
 
-  .premium-gradient {
-    @apply bg-gradient-to-br from-white via-cream to-[#e6f2f0];
+  .neo-button {
+    @apply px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all duration-500 flex items-center justify-center gap-3 active:scale-95;
   }
 
-  .text-authority { color: var(--authority); }
-  .text-sage { color: var(--sage); }
-  .text-saffron { color: var(--saffron); }
-  
-  .bg-authority { background-color: var(--authority); }
-  .bg-sage { background-color: var(--sage); }
-  .bg-cream { background-color: var(--cream); }
-  .bg-saffron { background-color: var(--saffron); }
+  .btn-primary {
+    @apply neo-button bg-[var(--primary)] text-black hover:shadow-[0_0_30px_rgba(0,255,133,0.4)] hover:-translate-y-1;
+  }
 
-  .rounded-antigravity {
-    border-radius: 2.5rem;
+  .btn-secondary {
+    @apply neo-button bg-white/5 border border-white/10 text-white hover:bg-white/10;
+  }
+
+  .text-glow {
+    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+  }
+
+  .stats-card {
+    @apply glass-panel p-8 flex flex-col gap-6 hover:border-primary/30 transition-all duration-700 group;
+  }
+
+  .input-field {
+    @apply w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg outline-none focus:border-primary focus:ring-4 ring-primary/5 transition-all placeholder:text-white/10;
   }
 }
 
-/* Custom Scrollbar */
+/* 🧬 BIOMETRIC ANIMATIONS */
+@keyframes pulse-soft {
+  0% { transform: scale(1); opacity: 0.8; }
+  50% { transform: scale(1.05); opacity: 1; }
+  100% { transform: scale(1); opacity: 0.8; }
+}
+
+.animate-pulse-soft {
+  animation: pulse-soft 4s infinite ease-in-out;
+}
+
+.scanning-line {
+  height: 2px;
+  background: linear-gradient(90deg, transparent, var(--primary), transparent);
+  box-shadow: 0 0 20px var(--primary);
+  position: absolute;
+  width: 100%;
+  left: 0;
+  z-index: 10;
+}
+
+/* CUSTOM SCROLLBAR */
 ::-webkit-scrollbar {
   width: 6px;
 }
-
 ::-webkit-scrollbar-track {
   background: transparent;
 }
-
 ::-webkit-scrollbar-thumb {
-  background: rgba(26, 29, 30, 0.05);
-  border-radius: 10px;
-}
-
-::-webkit-scrollbar-thumb:hover {
-  background: rgba(26, 29, 30, 0.1);
-}
-
-/* Animations */
-@keyframes float {
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-10px); }
-  100% { transform: translateY(0px); }
-}
-
-.animate-float {
-  animation: float 6s ease-in-out infinite;
+  @apply bg-white/10 rounded-full hover:bg-primary/40 transition-all;
 }
