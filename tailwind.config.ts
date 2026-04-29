@@ -8,18 +8,16 @@ module.exports = {
   theme: {
     extend: {
       colors: {
-        sage: {
-          light: "#E8F1F0",
-          DEFAULT: "#2A7E74",
-          dark: "#1D5952",
-        },
-        saffron: {
-          light: "#F7E9CE",
-          DEFAULT: "#E1B35B",
-          dark: "#B88E3E",
-        },
-        authority: "#1A1D1E",
-        cream: "#F8F9F5",
+        primary: "#00D1B2",
+        secondary: "#D4AF37",
+        accent: "#FF5A5F",
+        midnight: "#0A0A0B",
+      },
+      fontFamily: {
+        sans: ["var(--font-inter)"],
+        outfit: ["var(--font-outfit)"],
+        playfair: ["var(--font-playfair)"],
+        hindi: ["var(--font-noto-hindi)"],
       },
       borderRadius: {
         'antigravity': '16px',
