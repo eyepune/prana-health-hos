@@ -1,6 +1,6 @@
 /// <reference path="../types/globals.d.ts" />
 import type { Metadata } from "next";
-import { Inter, Noto_Sans_Devanagari, Outfit } from "next/font/google";
+import { Inter, Noto_Sans_Devanagari, Outfit, Playfair_Display } from "next/font/google";
 import "./globals.css";
 import FloatingNav from "@/components/FloatingNav";
 import { LanguageProvider } from "@/context/LanguageContext";
@@ -8,6 +8,7 @@ import { UserProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
+const playfair = Playfair_Display({ subsets: ["latin"], variable: "--font-playfair" });
 const notoHindi = Noto_Sans_Devanagari({ 
   subsets: ["devanagari"], 
   variable: "--font-noto-hindi",
@@ -26,7 +27,7 @@ export default function RootLayout({
 }) {
   return (
     <html lang="en">
-      <body className={`${inter.variable} ${outfit.variable} ${notoHindi.variable} font-sans antialiased bg-cream`}>
+      <body className={`${inter.variable} ${outfit.variable} ${playfair.variable} ${notoHindi.variable} font-sans antialiased bg-cream`}>
         <LanguageProvider>
           <UserProvider>
             <main className="min-h-screen overflow-x-hidden">

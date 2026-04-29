@@ -3,84 +3,66 @@
 @tailwind utilities;
 
 :root {
-  --background: #050505;
-  --foreground: #FFFFFF;
-  --primary: #00FF85; /* Bio-Green */
-  --secondary: #8B5CF6; /* Intel-Lavender */
-  --accent: #FFB800; /* Prana-Gold */
-  --card: rgba(20, 20, 20, 0.6);
-  --border: rgba(255, 255, 255, 0.08);
-  --radius: 32px;
+  --background: #FDFCFB; /* Bone White */
+  --foreground: #1A1A1A; /* Charcoal */
+  --primary: #1E3932; /* Deep Forest Green (Luxury) */
+  --secondary: #D2B48C; /* Tan/Sand */
+  --accent: #D27C5C; /* Terra-cotta (Warmth) */
+  --card: rgba(255, 255, 255, 0.8);
+  --border: rgba(0, 0, 0, 0.05);
+  --radius: 40px;
 }
 
 @layer base {
   body {
-    @apply bg-[var(--background)] text-[var(--foreground)] font-outfit antialiased selection:bg-primary/20;
+    @apply bg-[var(--background)] text-[var(--foreground)] font-outfit antialiased selection:bg-primary/10;
     background-image: 
-      radial-gradient(circle at 0% 0%, rgba(0, 255, 133, 0.05) 0%, transparent 40%),
-      radial-gradient(circle at 100% 100%, rgba(139, 92, 246, 0.05) 0%, transparent 40%);
-    background-attachment: fixed;
+      radial-gradient(circle at 100% 0%, rgba(30, 57, 50, 0.03) 0%, transparent 40%),
+      radial-gradient(circle at 0% 100%, rgba(210, 124, 92, 0.03) 0%, transparent 40%);
   }
 }
 
 @layer components {
   .glass-panel {
-    @apply bg-card backdrop-blur-3xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_20px_50px_-10px_rgba(0,0,0,0.5)];
+    @apply bg-card backdrop-blur-2xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_20px_80px_-20px_rgba(0,0,0,0.05)];
   }
 
   .neo-button {
-    @apply px-8 py-4 rounded-2xl font-black text-[10px] uppercase tracking-[0.4em] transition-all duration-500 flex items-center justify-center gap-3 active:scale-95;
+    @apply px-10 py-5 rounded-[24px] font-bold text-sm tracking-tight transition-all duration-500 flex items-center justify-center gap-3 active:scale-95;
   }
 
   .btn-primary {
-    @apply neo-button bg-[var(--primary)] text-black hover:shadow-[0_0_30px_rgba(0,255,133,0.4)] hover:-translate-y-1;
+    @apply neo-button bg-[var(--primary)] text-white hover:shadow-[0_20px_40px_-10px_rgba(30,57,50,0.3)] hover:-translate-y-1;
   }
 
   .btn-secondary {
-    @apply neo-button bg-white/5 border border-white/10 text-white hover:bg-white/10;
-  }
-
-  .text-glow {
-    text-shadow: 0 0 20px rgba(255, 255, 255, 0.3);
+    @apply neo-button bg-white border border-black/5 text-black hover:bg-black/[0.02];
   }
 
   .stats-card {
-    @apply glass-panel p-8 flex flex-col gap-6 hover:border-primary/30 transition-all duration-700 group;
+    @apply glass-panel p-10 flex flex-col gap-6 hover:translate-y-[-8px] transition-all duration-700 group cursor-pointer;
   }
 
   .input-field {
-    @apply w-full bg-white/5 border border-white/10 rounded-2xl px-8 py-5 text-lg outline-none focus:border-primary focus:ring-4 ring-primary/5 transition-all placeholder:text-white/10;
+    @apply w-full bg-black/[0.02] border border-black/5 rounded-3xl px-8 py-6 text-lg outline-none focus:bg-white focus:border-primary/20 transition-all placeholder:text-black/20;
   }
 }
 
-/* 🧬 BIOMETRIC ANIMATIONS */
-@keyframes pulse-soft {
-  0% { transform: scale(1); opacity: 0.8; }
-  50% { transform: scale(1.05); opacity: 1; }
-  100% { transform: scale(1); opacity: 0.8; }
+/* 🌿 ORGANIC ANIMATIONS */
+@keyframes float-soft {
+  0% { transform: translateY(0px); }
+  50% { transform: translateY(-15px); }
+  100% { transform: translateY(0px); }
 }
 
-.animate-pulse-soft {
-  animation: pulse-soft 4s infinite ease-in-out;
-}
-
-.scanning-line {
-  height: 2px;
-  background: linear-gradient(90deg, transparent, var(--primary), transparent);
-  box-shadow: 0 0 20px var(--primary);
-  position: absolute;
-  width: 100%;
-  left: 0;
-  z-index: 10;
+.animate-float {
+  animation: float-soft 8s infinite ease-in-out;
 }
 
 /* CUSTOM SCROLLBAR */
 ::-webkit-scrollbar {
-  width: 6px;
-}
-::-webkit-scrollbar-track {
-  background: transparent;
+  width: 5px;
 }
 ::-webkit-scrollbar-thumb {
-  @apply bg-white/10 rounded-full hover:bg-primary/40 transition-all;
+  @apply bg-black/5 rounded-full hover:bg-primary/20 transition-all;
 }

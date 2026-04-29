@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Upload, X, ShieldCheck, AlertCircle, Plus, Activity, TrendingUp, Zap } from 'lucide-react';
+import { FileText, Upload, X, ShieldCheck, AlertCircle, Plus, Activity, TrendingUp, Zap, Wind } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { supabase } from '@/utils/supabase';
 import { useUser } from '@/context/UserContext';
@@ -61,7 +61,6 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
 
       const data = await response.json();
       if (data.error) throw new Error(data.error);
-      
       const content = data.content;
       setAnalysisResult(content);
 
@@ -79,15 +78,11 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
           }]);
         }
       }
-      
       if (onRecordAdded) onRecordAdded();
-
     } catch (err: any) {
-      console.error('Analysis Error:', err);
-      setError('Could not decipher lab report. Ensure image is clear.');
-    } finally {
-      setIsAnalyzing(false);
-    }
+      console.error(err);
+      setError('Could not decipher lab report.');
+    } finally { setIsAnalyzing(false); }
   };
 
   return (
@@ -95,101 +90,96 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
       initial={{ opacity: 0 }}
       animate={{ opacity: 1 }}
       exit={{ opacity: 0 }}
-      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-authority/60 backdrop-blur-3xl"
+      className="fixed inset-0 z-[200] flex items-center justify-center p-6 bg-primary/40 backdrop-blur-3xl"
     >
       <motion.div
-        initial={{ scale: 0.9, y: 50 }}
+        initial={{ scale: 0.95, y: 30 }}
         animate={{ scale: 1, y: 0 }}
-        className="glass-card max-w-6xl w-full h-[85vh] overflow-hidden flex flex-col bg-cream border-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.5)] rounded-[48px]"
+        className="glass-panel max-w-6xl w-full h-[85vh] overflow-hidden flex flex-col bg-white shadow-[0_50px_100px_-20px_rgba(0,0,0,0.1)] rounded-[48px]"
       >
         {/* Header */}
-        <div className="p-10 border-b border-authority/5 flex items-center justify-between bg-saffron text-authority">
-          <div className="flex items-center gap-8">
-            <div className="w-16 h-16 rounded-[24px] bg-white/30 flex items-center justify-center">
-              <FileText className="w-8 h-8" />
+        <div className="p-12 border-b border-black/5 flex items-center justify-between bg-white text-primary">
+          <div className="flex items-center gap-10">
+            <div className="w-16 h-16 rounded-[24px] bg-primary/5 flex items-center justify-center shadow-inner">
+              <FileText className="w-8 h-8 text-primary" />
             </div>
             <div>
                <div className="flex items-center gap-3 mb-1">
-                 <Activity className="w-3 h-3 text-authority fill-authority" />
-                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40">BioMap_Protocol_v5</span>
+                 <Wind className="w-3 h-3 text-primary/40" />
+                 <span className="text-[10px] font-black uppercase tracking-[0.4em] opacity-40 uppercase">BioMap_Sync_v7.2</span>
                </div>
-              <h2 className="text-4xl font-outfit font-black uppercase tracking-tighter leading-none italic">Report Interpreter</h2>
+              <h2 className="text-4xl font-playfair font-black uppercase tracking-tighter leading-none italic">Report Interpreter</h2>
             </div>
           </div>
-          <button onClick={onClose} className="p-4 hover:bg-black/5 rounded-full transition-colors">
-            <X className="w-8 h-8" />
+          <button onClick={onClose} className="p-6 hover:bg-black/[0.02] rounded-full transition-colors">
+            <X className="w-10 h-10 text-primary/40" />
           </button>
         </div>
 
-        <div className="flex-1 overflow-y-auto p-12">
+        <div className="flex-1 overflow-y-auto p-16">
           {!image ? (
-            <div className="h-full flex flex-col items-center justify-center space-y-12 py-20 border-4 border-dashed border-authority/5 rounded-[40px] bg-white/30">
-              <div className="w-40 h-40 rounded-full bg-saffron/5 flex items-center justify-center text-saffron/20">
+            <div className="h-full flex flex-col items-center justify-center space-y-16 py-24 border-2 border-dashed border-black/5 rounded-[48px] bg-black/[0.01] hover:bg-black/[0.02] transition-colors cursor-pointer group" onClick={() => fileInputRef.current?.click()}>
+              <div className="w-40 h-40 rounded-full bg-primary/5 flex items-center justify-center text-primary/10 group-hover:scale-110 transition-transform duration-700">
                 <Plus className="w-20 h-20" />
               </div>
-              <div className="text-center space-y-6">
-                <h3 className="text-5xl font-outfit font-black text-authority tracking-tighter uppercase leading-none italic">Extract Bio-Markers</h3>
-                <p className="text-authority/40 font-medium max-w-sm mx-auto uppercase text-[10px] tracking-[0.3em] font-black">Upload blood work, MRI, or clinical notes</p>
+              <div className="text-center space-y-8">
+                <h3 className="text-5xl font-playfair font-black text-primary tracking-tighter uppercase leading-none italic">Extract Bio-Markers</h3>
+                <p className="text-primary/30 font-medium max-w-sm mx-auto uppercase text-[11px] tracking-[0.4em] font-black">Upload blood work, MRI, or clinical notes</p>
               </div>
               <button 
-                onClick={() => fileInputRef.current?.click()}
-                className="px-16 py-8 bg-authority text-white rounded-[32px] font-black text-xs uppercase tracking-[0.5em] hover:bg-teal transition-all flex items-center gap-4 shadow-3xl"
+                className="btn-primary py-10 px-24 shadow-2xl"
               >
-                <Upload className="w-5 h-5" /> Select Report
+                <Upload className="w-5 h-5 mr-4" /> Select Report
               </button>
               <input type="file" ref={fileInputRef} onChange={handleFileUpload} className="hidden" accept="image/*" />
             </div>
           ) : (
-            <div className="grid grid-cols-1 lg:grid-cols-2 gap-16 h-full">
-               <div className="space-y-10">
-                  <div className="aspect-[3/4] rounded-[48px] overflow-hidden border-[12px] border-white shadow-3xl bg-cream relative group">
+            <div className="grid grid-cols-1 lg:grid-cols-2 gap-20 h-full">
+               <div className="space-y-12">
+                  <div className="aspect-[3/4] rounded-[64px] overflow-hidden border-[16px] border-white shadow-2xl bg-black/[0.01] relative group">
                     <img src={image} className="w-full h-full object-cover" alt="Report" />
                     {isAnalyzing && (
                       <motion.div 
                         initial={{ top: "0%" }}
                         animate={{ top: "100%" }}
                         transition={{ duration: 3, repeat: Infinity, ease: "linear" }}
-                        className="absolute inset-x-0 h-2 bg-saffron shadow-[0_0_40px_#FFB800] z-10"
+                        className="absolute inset-x-0 h-1 bg-primary/40 shadow-[0_0_30px_rgba(30,57,50,0.5)] z-10"
                       />
                     )}
                   </div>
                   {!analysisResult && !isAnalyzing && (
                     <button 
                       onClick={analyzeReport}
-                      className="w-full py-8 bg-saffron text-authority rounded-[32px] font-black text-xs uppercase tracking-[0.6em] hover:scale-[1.02] transition-all shadow-2xl"
+                      className="btn-primary w-full py-10 shadow-2xl"
                     >
-                      Extract Biomarkers
+                      Analyze Report Markers
                     </button>
                   )}
                </div>
 
                <div className="flex flex-col">
                   {isAnalyzing ? (
-                    <div className="flex-1 flex flex-col items-center justify-center space-y-10 animate-pulse">
-                      <div className="w-24 h-24 rounded-full border-[8px] border-authority/5 border-t-saffron animate-spin" />
-                      <p className="text-[11px] font-black uppercase tracking-[0.6em] text-authority/20">Syncing with Bharat Engine...</p>
+                    <div className="flex-1 flex flex-col items-center justify-center space-y-12 animate-pulse">
+                      <div className="w-24 h-24 rounded-full border-[6px] border-primary/5 border-t-primary animate-spin" />
+                      <p className="text-[11px] font-black uppercase tracking-[0.8em] text-primary/20">Syncing_Bharat_Engine...</p>
                     </div>
                   ) : analysisResult ? (
-                    <motion.div 
-                      initial={{ opacity: 0, x: 50 }}
-                      animate={{ opacity: 1, x: 0 }}
-                      className="space-y-12"
-                    >
-                       <div className="p-8 bg-teal/5 rounded-[32px] border border-teal/10 flex items-center gap-6">
-                          <ShieldCheck className="w-12 h-12 text-teal" />
+                    <motion.div initial={{ opacity: 0, x: 30 }} animate={{ opacity: 1, x: 0 }} className="space-y-16">
+                       <div className="p-10 bg-primary/5 rounded-[40px] border border-primary/10 flex items-center gap-8">
+                          <ShieldCheck className="w-14 h-14 text-primary" />
                           <div>
-                            <h4 className="text-2xl font-outfit font-black text-authority leading-none">VITALITY SYNCED</h4>
-                            <p className="text-[10px] font-black uppercase tracking-widest text-authority/40 mt-2">Markers added to your Life-Map™</p>
+                            <h4 className="text-2xl font-playfair font-black text-primary italic leading-none">BIOMAP SYNCED</h4>
+                            <p className="text-[10px] font-black uppercase tracking-widest text-primary/40 mt-3 font-outfit">Markers integrated into your Life-Map™</p>
                           </div>
                        </div>
 
-                       <div className="space-y-8">
-                          <div className="flex items-center gap-4">
-                             <TrendingUp className="w-6 h-6 text-teal" />
-                             <h3 className="text-[11px] font-black uppercase tracking-[0.5em] text-authority/30">Clinical Interpretation</h3>
+                       <div className="space-y-10">
+                          <div className="flex items-center gap-6">
+                             <TrendingUp className="w-7 h-7 text-primary/20" />
+                             <h3 className="text-[11px] font-black uppercase tracking-[0.6em] text-primary/30">Clinical Interpretation</h3>
                           </div>
-                          <div className="prose prose-sm prose-authority max-w-none">
-                             <div className="text-authority/80 leading-relaxed font-medium whitespace-pre-wrap italic bg-white p-10 rounded-[40px] shadow-inner">
+                          <div className="prose prose-lg prose-primary max-w-none">
+                             <div className="text-primary/70 leading-relaxed font-medium whitespace-pre-wrap italic bg-black/[0.01] p-12 rounded-[48px] border border-black/[0.02] shadow-inner text-xl font-playfair">
                                 {analysisResult}
                              </div>
                           </div>
@@ -197,15 +187,15 @@ export default function HealthRecordsModal({ onClose, onRecordAdded }: HealthRec
 
                        <button 
                          onClick={() => setImage(null)}
-                         className="w-full py-6 border-2 border-authority/5 text-authority/20 rounded-[32px] font-black text-[10px] uppercase tracking-[0.5em] hover:text-authority transition-all"
+                         className="w-full py-8 text-primary/20 hover:text-primary transition-colors flex items-center justify-center gap-6 text-[11px] font-black uppercase tracking-[0.6em]"
                        >
-                         Upload New Report
+                         <RefreshCw className="w-6 h-6" /> Upload New Protocol
                        </button>
                     </motion.div>
                   ) : (
-                    <div className="flex-1 flex flex-col items-center justify-center text-center p-20 border-4 border-dashed border-authority/5 rounded-[48px] opacity-10">
-                       <TrendingUp className="w-20 h-20 mb-8" />
-                       <p className="text-[12px] font-black uppercase tracking-[0.8em]">Awaiting Calibration</p>
+                    <div className="flex-1 flex flex-col items-center justify-center text-center p-24 border-2 border-dashed border-black/5 rounded-[64px] opacity-10 grayscale">
+                       <TrendingUp className="w-24 h-24 mb-10" />
+                       <p className="text-[12px] font-black uppercase tracking-[1.5em]">Awaiting_Calibration</p>
                     </div>
                   )}
                </div>
