@@ -4,6 +4,7 @@ import { Inter, Noto_Sans_Devanagari, Outfit } from "next/font/google";
 import "./globals.css";
 import FloatingNav from "@/components/FloatingNav";
 import { LanguageProvider } from "@/context/LanguageContext";
+import { UserProvider } from "@/context/UserContext";
 
 const inter = Inter({ subsets: ["latin"], variable: "--font-inter" });
 const outfit = Outfit({ subsets: ["latin"], variable: "--font-outfit" });
@@ -27,10 +28,12 @@ export default function RootLayout({
     <html lang="en">
       <body className={`${inter.variable} ${outfit.variable} ${notoHindi.variable} font-sans antialiased bg-cream`}>
         <LanguageProvider>
-          <FloatingNav />
-          <main className="min-h-screen pt-24 overflow-x-hidden">
-            {children}
-          </main>
+          <UserProvider>
+            <FloatingNav />
+            <main className="min-h-screen pt-24 overflow-x-hidden">
+              {children}
+            </main>
+          </UserProvider>
         </LanguageProvider>
       </body>
     </html>

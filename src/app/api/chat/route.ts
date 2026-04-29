@@ -1,6 +1,6 @@
 import { NextRequest, NextResponse } from 'next/server';
-// @ts-ignore
 import Bytez from "bytez.js";
+import { supabase } from '@/utils/supabase';
 
 const BYTEZ_KEY = process.env.BYTEZ_API_KEY || "7072abf256b0a63fbcce934c79a8e1d4";
 const sdk = new Bytez(BYTEZ_KEY);
@@ -38,6 +38,22 @@ export async function POST(req: NextRequest) {
 
     if (error) {
       throw new Error(JSON.stringify(error));
+    }
+
+    // Async save to Supabase (non-blocking for the response)
+    if (profile?.id) {
+       const userQuery = messages[messages.length - 1]?.content;
+       const urgencyMatch = output.match(/🟢|🟡|🔴/);
+       const urgency = urgencyMatch ? (urgencyMatch[0] === '🟢' ? 'green' : urgencyMatch[0] === '🟡' ? 'yellow' : 'red') : 'green';
+
+       supabase.from('consultations').insert([{
+          user_id: profile.id,
+          query: typeof userQuery === 'string' ? userQuery : 'Image Scan',
+          response: { content: output, model: modelSlug },
+          urgency_level: urgency
+       }]).then(({ error }) => {
+          if (error) console.error("Supabase Save Error:", error);
+       });
     }
 
     return NextResponse.json({ 

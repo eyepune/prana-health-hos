@@ -16,18 +16,20 @@ import {
 } from "lucide-react";
 import Link from "next/link";
 import PranaLogo3 from "@/components/PranaLogo3";
+import { useUser } from "@/context/UserContext";
 
 type Step = "greeting" | "identity" | "vitality" | "access";
 
 export default function Onboarding() {
   const router = useRouter();
+  const { profile, updateProfile } = useUser();
   const [step, setStep] = useState("greeting" as Step);
   const [formData, setFormData] = useState({
-    name: "",
-    sex: "" as "male" | "female" | "other" | "",
-    age: "",
-    weight: "",
-    conditions: [] as string[]
+    name: profile.name || "",
+    sex: profile.sex || "" as "male" | "female" | "other" | "",
+    age: profile.age || "",
+    weight: profile.weight || "",
+    conditions: profile.conditions || [] as string[]
   });
 
   const nextStep = (next: Step) => setStep(next);
@@ -193,7 +195,10 @@ export default function Onboarding() {
                 </p>
               </div>
               <button 
-                onClick={() => router.push("/dashboard")}
+                onClick={() => {
+                  updateProfile({ ...formData, onboardingComplete: true });
+                  router.push("/dashboard");
+                }}
                 className="w-full py-8 bg-authority text-cream rounded-antigravity font-black text-xs uppercase tracking-[0.5em] hover:bg-authority/90 transition-all shadow-[0_30px_60px_-15px_rgba(26,29,30,0.3)]"
               >
                 Launch Bharat Dashboard

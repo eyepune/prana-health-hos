@@ -43,10 +43,10 @@ export default function LandingPage() {
             </Link>
             
             <div className="hidden lg:flex items-center gap-8 text-[11px] font-black uppercase tracking-[0.2em] text-authority/40">
-              <Link href="#" className="hover:text-authority transition-colors">{t.nav.reports}</Link>
-              <Link href="#" className="hover:text-authority transition-colors">{t.nav.symptoms}</Link>
-              <Link href="#" className="hover:text-authority transition-colors">{t.nav.scanner}</Link>
-              <Link href="#" className="hover:text-authority transition-colors">{t.nav.how_it_works}</Link>
+              <Link href="/dashboard" className="hover:text-authority transition-colors">{t.nav.reports}</Link>
+              <Link href="/dashboard" className="hover:text-authority transition-colors">{t.nav.symptoms}</Link>
+              <Link href="/dashboard" className="hover:text-authority transition-colors">{t.nav.scanner}</Link>
+              <Link href="#how-it-works" className="hover:text-authority transition-colors">{t.nav.how_it_works}</Link>
             </div>
           </div>
 

@@ -26,9 +26,14 @@ import {
 } from "lucide-react";
 import PranaLogo3 from "@/components/PranaLogo3";
 import EmergencyGlow from "@/components/EmergencyGlow";
+import ProductLens from "@/components/ProductLens";
+import HealthRecordsModal from "@/components/HealthRecordsModal";
+import { useUser } from "@/context/UserContext";
+import { supabase } from "@/utils/supabase";
 
 export default function Dashboard() {
    const { lang, t } = useLanguage();
+   const { profile } = useUser();
    const [activeModule, setActiveModule] = useState(null as "consult" | "records" | "lens" | "appointments" | "reminders" | null);
    const [isEmergency, setIsEmergency] = useState(false);
    const [isListening, setIsListening] = useState(false);
@@ -38,11 +43,35 @@ export default function Dashboard() {
    const [messages, setMessages] = useState([
       { role: "assistant", content: t.dashboard.consult_welcome }
    ] as { role: string; content: string }[]);
-   const [records, setRecords] = useState([
-      { marker: "Vitamin D", value: "24", unit: "ng/mL", status: "low", date: "2024-03-01" },
-      { marker: "HbA1c", value: "5.7", unit: "%", status: "normal", date: "2024-02-15" }
-   ] as any[]);
+   const [records, setRecords] = useState([] as any[]);
    const [isLoading, setIsLoading] = useState(false);
+   const [vitalityScore, setVitalityScore] = useState(0);
+
+   const fetchRecords = async () => {
+      if (!profile?.id) return;
+      const { data, error } = await supabase
+         .from('vitality_records')
+         .select('*')
+         .eq('user_id', profile.id)
+         .order('created_at', { ascending: false });
+
+      if (data) {
+         setRecords(data.map(r => ({
+            marker: r.marker_name,
+            value: r.marker_value,
+            unit: "", 
+            status: r.vitality_score > 70 ? 'normal' : 'low',
+            date: new Date(r.created_at).toLocaleDateString()
+         })));
+
+         const avg = data.reduce((acc, curr) => acc + (curr.vitality_score || 0), 0) / data.length;
+         setVitalityScore(Math.round(avg || 0));
+      }
+   };
+
+   useEffect(() => {
+      fetchRecords();
+   }, [profile?.id]);
 
    const handleSendMessage = async () => {
       if (!inputValue.trim() || isLoading) return;
@@ -59,7 +88,7 @@ export default function Dashboard() {
             body: JSON.stringify({
                messages: [...messages, userMessage],
                type: "text",
-               profile: { name: "Resident", sex: "Unknown", age: "Unknown" } // Placeholder profile
+               profile: profile
             })
          });
 
@@ -118,11 +147,13 @@ export default function Dashboard() {
                <div className="lg:col-span-2 glass-card p-10 flex flex-col md:flex-row gap-12 bg-white/70">
                   <div className="flex items-center gap-8">
                      <div className="w-24 h-24 rounded-full border-[6px] border-sage/20 border-t-sage animate-[spin_4s_linear_infinite] p-1">
-                        <div className="w-full h-full rounded-full bg-cream flex items-center justify-center font-outfit font-black text-2xl text-sage">72</div>
+                        <div className="w-full h-full rounded-full bg-cream flex items-center justify-center font-outfit font-black text-2xl text-sage">{vitalityScore || "--"}</div>
                      </div>
                      <div>
                         <h4 className="text-authority/40 text-[10px] font-bold uppercase tracking-widest leading-none mb-2">{t.dashboard.vitality_score}</h4>
-                        <p className="text-3xl font-outfit font-bold tracking-tight">{t.dashboard.awaiting_calibration}</p>
+                        <p className="text-3xl font-outfit font-bold tracking-tight">
+                           {vitalityScore > 80 ? "EXCELLENT" : vitalityScore > 50 ? "CALIBRATED" : t.dashboard.awaiting_calibration}
+                        </p>
                         <p className="text-sage text-[10px] font-bold uppercase mt-2 tracking-widest">{t.dashboard.sovereign_link}</p>
                      </div>
                   </div>
@@ -280,83 +311,10 @@ export default function Dashboard() {
             )}
 
             {activeModule === "records" && (
-               <motion.div
-                  key="records-modal"
-                  initial={{ opacity: 0 }}
-                  animate={{ opacity: 1 }}
-                  exit={{ opacity: 0 }}
-                  className="fixed inset-0 z-[100] flex items-center justify-center p-6 bg-authority/40 backdrop-blur-xl"
-               >
-                  <motion.div
-                     initial={{ opacity: 0, scale: 0.9, y: 50 }}
-                     animate={{ opacity: 1, scale: 1, y: 0 }}
-                     exit={{ opacity: 0, scale: 0.9, y: 50 }}
-                     className="glass-card max-w-6xl w-full h-[85vh] flex flex-col overflow-hidden shadow-2xl bg-cream border-white/50"
-                  >
-                     <div className="p-8 border-b border-authority/5 flex items-center justify-between bg-saffron/5">
-                        <div className="flex items-center gap-6">
-                           <PranaLogo3 size={40} pulse={true} />
-                           <h2 className="text-3xl font-outfit font-black uppercase tracking-tighter text-authority">{t.dashboard.records}</h2>
-                        </div>
-                        <button onClick={() => setActiveModule(null)} className="p-3 hover:bg-authority/10 rounded-full transition-colors bg-white/50">
-                           <X className="w-6 h-6 text-authority" />
-                        </button>
-                     </div>
-
-                     <div className="flex-1 overflow-y-auto p-12 flex flex-col lg:row gap-16 bg-white/20">
-                        <div className="flex-1 space-y-10">
-                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-authority/30 pl-4 border-l-4 border-saffron">{t.dashboard.biomarker_extraction}</h3>
-                           <div className="space-y-4">
-                              {records.map((r: any, i: number) => (
-                                 <motion.div
-                                    key={i}
-                                    initial={{ opacity: 0, x: -20 }}
-                                    animate={{ opacity: 1, x: 0 }}
-                                    transition={{ delay: i * 0.1 }}
-                                    className="flex items-center justify-between p-8 bg-white rounded-antigravity border border-authority/5 shadow-xl shadow-authority/5 hover:border-saffron/20 transition-all cursor-pointer group"
-                                 >
-                                    <div>
-                                       <p className="font-black text-lg text-authority tracking-tight uppercase leading-none mb-1">{r.marker}</p>
-                                       <p className="text-[10px] text-authority/30 uppercase font-black tracking-widest">{r.date}</p>
-                                    </div>
-                                    <div className="text-right">
-                                       <p className={`text-3xl font-outfit font-black ${r.status === 'low' ? 'text-red-500' : 'text-sage'}`}>
-                                          {r.value} <span className="text-[10px] font-black opacity-20 uppercase">{r.unit}</span>
-                                       </p>
-                                    </div>
-                                 </motion.div>
-                              ))}
-                           </div>
-                           <button className="w-full py-8 border-4 border-dashed border-authority/5 rounded-antigravity text-authority/20 text-[10px] font-black uppercase tracking-[0.4em] hover:bg-white hover:text-saffron hover:border-saffron/20 transition-all group">
-                              <Plus className="inline-block mr-2 w-4 h-4 group-hover:rotate-90 transition-transform" /> {t.dashboard.upload_report}
-                           </button>
-                        </div>
-
-                        <div className="flex-1 space-y-10">
-                           <h3 className="text-[10px] font-black uppercase tracking-[0.4em] text-authority/30 pl-4 border-l-4 border-sage">{t.dashboard.vitality_timeline}</h3>
-                           <div className="h-80 glass-card p-12 flex items-end justify-between bg-white shadow-2xl shadow-authority/5 border-none">
-                              {[40, 70, 55, 90, 85].map((h, i) => (
-                                 <div key={i} className="flex-1 flex flex-col items-center gap-6 h-full justify-end">
-                                    <motion.div
-                                       initial={{ height: 0 }}
-                                       animate={{ height: `${h}%` }}
-                                       className={`w-full max-w-[60px] rounded-t-2xl transition-all duration-700 ${i === 3 ? 'bg-sage shadow-2xl shadow-sage/40' : 'bg-sage/5 hover:bg-sage/10'}`}
-                                    />
-                                    <span className="text-[10px] font-black text-authority/20 tracking-tighter">WEEK {i + 1}</span>
-                                 </div>
-                              ))}
-                           </div>
-                           <div className="p-10 bg-sage/5 rounded-antigravity border border-sage/10 relative overflow-hidden group">
-                              <TrendingUp className="absolute top-8 right-10 w-20 h-20 text-sage/10 group-hover:scale-110 transition-transform" />
-                              <h4 className="font-black text-[10px] text-sage uppercase tracking-[0.5em] mb-6">{t.dashboard.clinical_interpretation}</h4>
-                              <p className="text-base text-authority/70 leading-relaxed font-medium italic relative z-10">
-                                 {t.dashboard.interpretation_text}
-                              </p>
-                           </div>
-                        </div>
-                     </div>
-                  </motion.div>
-               </motion.div>
+               <HealthRecordsModal 
+                  onClose={() => setActiveModule(null)}
+                  onRecordAdded={fetchRecords}
+               />
             )}
 
             {activeModule === "appointments" && (
@@ -467,6 +425,12 @@ export default function Dashboard() {
                   isActive={isEmergency}
                   location={userLocation}
                   onClose={() => setIsEmergency(false)}
+               />
+            )}
+
+            {activeModule === "lens" && (
+               <ProductLens 
+                  onClose={() => setActiveModule(null)}
                />
             )}
          </AnimatePresence>
