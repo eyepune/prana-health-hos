@@ -143,7 +143,7 @@ export default function LandingPage() {
               key={i}
               {...fadeIn}
               transition={{ delay: i * 0.2 }}
-              className="stats-card p-16 bg-white/[0.01] border-white/5"
+              className="stats-card p-16 bg-white/[0.01] border-white/5 group"
             >
               <div className="w-20 h-20 rounded-3xl bg-primary/10 text-primary flex items-center justify-center mb-14 group-hover:bg-primary group-hover:text-black transition-all duration-700 shadow-[0_0_20px_rgba(0,209,178,0.1)]">
                 <f.icon className="w-10 h-10" />

@@ -41,7 +41,7 @@
   }
 
   .stats-card {
-    @apply glass-panel p-10 flex flex-col gap-8 hover:border-primary/20 hover:bg-white/[0.02] transition-all duration-700 group cursor-pointer;
+    @apply glass-panel p-10 flex flex-col gap-8 hover:border-primary/20 hover:bg-white/[0.02] transition-all duration-700 cursor-pointer;
   }
 
   .input-field {
