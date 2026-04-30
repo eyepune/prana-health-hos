@@ -30,12 +30,17 @@ export default {
       },
       borderRadius: {
         'antigravity': '16px',
+        '36px': '36px',
+      },
+      borderColor: {
+        'white-6': 'rgba(255, 255, 255, 0.06)',
       },
       backgroundImage: {
         'glass-gradient': 'linear-gradient(135deg, rgba(255, 255, 255, 0.4) 0%, rgba(255, 255, 255, 0.1) 100%)',
       },
       boxShadow: {
         '3xl': '0 35px 60px -15px rgba(0, 0, 0, 0.3)',
+        'glass': '0 30px 60px -12px rgba(0,0,0,0.5)',
       },
       animation: {
         'pulse-gentle': 'pulse-gentle 4s ease-in-out infinite',

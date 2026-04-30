@@ -25,7 +25,7 @@
 
 @layer components {
   .glass-panel {
-    @apply bg-card backdrop-blur-3xl border border-[var(--border)] rounded-[var(--radius)] shadow-[0_30px_60px_-12px_rgba(0,0,0,0.5)];
+    @apply bg-card backdrop-blur-3xl border border-white-6 rounded-[36px] shadow-glass;
   }
 
   .neo-button {
