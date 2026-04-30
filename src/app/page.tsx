@@ -11,9 +11,7 @@ import {
   Zap,
   Lock,
   Sparkles,
-  ChevronDown,
-  Wind,
-  Globe
+  Wind
 } from "lucide-react";
 import Link from "next/link";
 import PranaLogo3 from "@/components/PranaLogo3";

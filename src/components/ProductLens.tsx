@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { Camera, Upload, X, Scan, ShieldCheck, AlertCircle, RefreshCw, Zap, Wind } from 'lucide-react';
+import { Camera, Upload, X, Scan, ShieldCheck, RefreshCw, Wind } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 
 interface ProductLensProps {

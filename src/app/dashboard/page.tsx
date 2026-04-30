@@ -8,13 +8,9 @@ import { useLanguage } from "@/context/LanguageContext";
 import {
    MessageCircle,
    FileText,
-   Maximize,
-   Settings,
-   Bell,
    Activity,
    Zap,
    ShieldCheck,
-   ShieldOff,
    AlertCircle,
    X,
    Plus,
@@ -23,10 +19,7 @@ import {
    Scan,
    Calendar,
    Clock,
-   Search,
-   User,
    Cpu,
-   BarChart3,
    Leaf,
    Wind
 } from "lucide-react";
