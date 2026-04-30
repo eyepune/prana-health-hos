@@ -21,7 +21,8 @@ import {
    Clock,
    Cpu,
    Leaf,
-   Wind
+   Wind,
+   Settings
 } from "lucide-react";
 import PranaLogo3 from "@/components/PranaLogo3";
 import EmergencyGlow from "@/components/EmergencyGlow";

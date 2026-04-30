@@ -2,7 +2,7 @@
 
 import React, { useState, useRef } from 'react';
 import { motion, AnimatePresence } from 'framer-motion';
-import { FileText, Upload, X, ShieldCheck, Plus, Activity, TrendingUp, Wind } from 'lucide-react';
+import { FileText, Upload, X, ShieldCheck, Plus, Activity, TrendingUp, Wind, RefreshCw } from 'lucide-react';
 import { useLanguage } from '@/context/LanguageContext';
 import { supabase } from '@/utils/supabase';
 import { useUser } from '@/context/UserContext';
